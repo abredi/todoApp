@@ -6,9 +6,8 @@
   "name": "TodoApp",
   "version": "0.0.1",
   "description": "A Todo app ",
-  "main": "index.js",
-  "repository": "git@bitbucket.org:myverse/weather.git",
-  "author": "Abdulaziz Ali <rediabdulaziz@gmail.com> and ",
+  "repository": "https://github.com/abredi/todoApp.git",
+  "author": "Abdulaziz Ali <rediabdulaziz@gmail.com> and Herve",
   "license": "MIT",
   "private": "false",
   "devDependencies": {
