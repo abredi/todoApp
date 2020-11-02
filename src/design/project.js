@@ -42,6 +42,7 @@ const todoUI = () => {
         const addPBtn = document.createElement('button');
         
         addPBtn.setAttribute('type','button');
+        
         addPBtn.addEventListener('click', addProject);
         addPBtn.innerText = "Add a project";
 
