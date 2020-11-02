@@ -9,10 +9,11 @@ export const local = () => {
     project = JSON.parse(project);
     const todos = [...project.todos, {
       projectName: todo,
-      projectId: project.todos.length + 1
+      projectId: project.todos.length + 1,
+      tasks: []
     }];
 
-    localStorage.setItem('project', JSON.stringify({todos}));
+    store(todos);
   };
 
   const getProjects = () => {
@@ -25,10 +26,23 @@ export const local = () => {
   }
 
   const saveTodoTask = (todo) => {
-    const projects = getProjects();
-    if (projects) {
-      
+    const todos = getProjects().todos;
+    if (!todos) {
+      return false;
     }
+
+    const updatedTodos = todos.map(t => {
+      if (todo.projectId == t.projectId) {
+         t.tasks = [...t.tasks, todo];
+      }
+      return t
+    });
+    
+    store(updatedTodos)
+  };
+
+  const store = (todos) => {
+    localStorage.setItem('project', JSON.stringify({todos}));
   }
 
   return {saveTodoProject, getProjects, saveTodoTask}

@@ -1,4 +1,4 @@
-
+import { cleanModal } from "../util/helpers";
 import { local } from "../storage/local";
 
 const todoUI = () => {
@@ -21,8 +21,6 @@ const todoUI = () => {
             return;
         }
 
-        const modal = document.querySelector('.modal');
-
         const projectFormWrapper = document.createElement('div');
         projectFormWrapper.classList.add('project-form');
 
@@ -41,6 +39,8 @@ const todoUI = () => {
         projectForm.appendChild(projectName);
         projectForm.appendChild(addPBtn);
         projectFormWrapper.appendChild(projectForm);
+
+        const modal = cleanModal();
         modal.appendChild(projectFormWrapper);
     };
 

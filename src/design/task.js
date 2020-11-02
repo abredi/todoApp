@@ -1,3 +1,4 @@
+import { cleanModal } from "../util/helpers";
 import { local } from "../storage/local";
 let main = document.getElementById('main');
 
@@ -46,6 +47,7 @@ const task = () => {
         submit.setAttribute('value', 'Create Task');
         submit.addEventListener('click', createTask)
         const form = document.createElement('form');
+        form.setAttribute('id', 'addTodo')
         form.appendChild(selectProject);
         form.appendChild(title);
         form.appendChild(desc);
@@ -53,11 +55,7 @@ const task = () => {
         form.appendChild(priority);
         form.appendChild(submit);
 
-        const modal = document.querySelector('.modal');
-
-        while (modal.childElementCount > 0) {
-            modal.removeChild(modal.firstElementChild)
-        }
+        const modal = cleanModal();
 
         modal.appendChild(form);
     }
