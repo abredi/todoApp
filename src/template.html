@@ -4,7 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <style>
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            margin-top: 2em;
+        }
+
+        form > * {
+            display: block;
+            margin: 1em;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,8 +33,8 @@
         <div class="modal"></div>
 
         <p id="text"></p>
-        <form action="" id="addTodo">
-            <select name="project" id="">
+        <form id="addTodo">
+            <select name="project" id="project">
                 <option value="1">Project</option>
             </select><br>
             <input type="text" name="title" id="title" placeholder="Task"><br>

@@ -1,27 +1,16 @@
 
-let todos = [];
+import { local } from "../storage/local";
+
 const todoUI = () => {
 
-    const saveTodoProject = (todo) => {
-        let project = localStorage.getItem('project');
-        if (!project) {
-            project = localStorage.setItem('project', '{"todos": null}');
-            project = localStorage.getItem('project');
-        }
-
-        project = JSON.parse(project);
-
-        project = {...project.todos, todo};
-        localStorage.setItem('project', JSON.stringify(project));
-    };
-
     const addProject = () => {
+        const ls = local();
         const projectName = document.getElementById('projectName');
         if (projectName.value == '') {
             return;
         }
 
-        saveTodoProject({projectName: projectName.value})
+        ls.saveTodoProject(projectName.value)
         projectName.value = '';
     };
 
