@@ -78,7 +78,11 @@ const task = () => {
         taskCard.appendChild(taskPriority);
         main.appendChild(taskCard);
 
+         
+
         ls.saveTodoTask({projectId, title, desc, date, priority});
+
+
 
         document.getElementById('addTodo').reset();
     }
@@ -97,10 +101,24 @@ const task = () => {
         projectNameElem.setAttribute('id', project.projectId);
         projectNameElem.innerText = project.projectName;
 
-        const p = project.tasks.map(t => createTask(t, projectNameElem));
+        project.tasks.forEach(t => displayTask(t, projectNameElem));
 
         const todosMain = document.querySelector('.main');
         todosMain.appendChild(p);
+    }
+
+    const displayTask = (task,project) => {
+
+
+        const taskName = document.createElement('h3');
+        const due = document.createElement('p');
+        const priority = document.createElement('p');
+        const description = document.createElement('p');
+        taskName.innerText = task.title;
+        due.innerText = task.date;
+        priority.innerText = task.priority;
+        description.innerText = task.desc;
+        
     }
 
     const displayTodos = () => {
