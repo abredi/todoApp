@@ -10,7 +10,22 @@ const todoUI = () => {
             return;
         }
 
-        ls.saveTodoProject(projectName.value)
+        const pid = ls.saveTodoProject(projectName.value);
+
+        const projectNameElem = document.createElement('h2');
+        projectNameElem.innerText = projectName.value;
+
+        const ul = document.createElement('ul');
+        ul.setAttribute('id', pid);
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.appendChild(projectNameElem);
+        card.appendChild(ul);
+
+        const todosMain = document.getElementById('main');
+        todosMain.appendChild(card);
+
         projectName.value = '';
     };
 

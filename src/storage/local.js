@@ -7,13 +7,16 @@ export const local = () => {
     }
   
     project = JSON.parse(project);
+    const id = project.todos.length + 1
     const todos = [...project.todos, {
       projectName: todo,
-      projectId: project.todos.length + 1,
+      projectId: id,
       tasks: []
     }];
 
     store(todos);
+
+    return id;
   };
 
   const getProjects = () => {

@@ -40,7 +40,7 @@ const task = () => {
         submit.setAttribute('type', 'button');
         submit.setAttribute('id', 'create-task');
         submit.setAttribute('value', 'Create Task');
-        submit.addEventListener('click', createTask)
+        submit.addEventListener('click', createTask);
         const form = document.createElement('form');
         form.setAttribute('id', 'addTodo')
         form.appendChild(selectProject);
@@ -57,39 +57,28 @@ const task = () => {
  
     const createTask = (event) =>{
         event.preventDefault();
-        const taskCard = document.createElement('div');
-        const taskTitle = document.createElement('div');
-        const taskDesc = document.createElement('div');
-        const taskDate = document.createElement('div');
-        const taskPriority = document.createElement('div');
-
+        
         const projectId = document.getElementById('projectId').value;
         const title = document.getElementById('title').value;
         const desc = document.getElementById('desc').value;
         const date = document.getElementById('date').value;
         const priority = document.getElementById('priority').value;
-        taskTitle.innerHTML = title;
-        taskDesc.innerHTML = desc;
-        taskDate.innerHTML = date
-        taskPriority.innerHTML = priority
-        taskCard.appendChild(taskTitle);
-        taskCard.appendChild(taskDesc);
-        taskCard.appendChild(taskDate);
-        taskCard.appendChild(taskPriority);
-        main.appendChild(taskCard);
 
-         
+        const taskData = { projectId, title, desc, date, priority }
 
+        const taskElem = displayTask(taskData);
+        const projectElem = document.getElementById(projectId);
+        projectElem.appendChild(taskElem);
+    
         ls.saveTodoTask({projectId, title, desc, date, priority});
 
-
-
         document.getElementById('addTodo').reset();
-    }
+    };
 
     const createTodoCard = (project) => {
         `
-        h2.title
+        div.card
+            h2.title
             ul.tasks
                 li.task
                     h3.taskName
@@ -98,18 +87,23 @@ const task = () => {
                     p.desc
         `
         const projectNameElem = document.createElement('h2');
-        projectNameElem.setAttribute('id', project.projectId);
         projectNameElem.innerText = project.projectName;
+        const ul = document.createElement('ul');
+        ul.setAttribute('id', project.projectId);
+        project.tasks.forEach(t => {
+            const task = displayTask(t);
+            ul.appendChild(task);
+        });
 
-        project.tasks.forEach(t => displayTask(t, projectNameElem));
-
-        const todosMain = document.querySelector('.main');
-        todosMain.appendChild(p);
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.appendChild(projectNameElem);
+        card.appendChild(ul);
+        const todosMain = document.getElementById('main');
+        todosMain.appendChild(card);
     }
 
-    const displayTask = (task,project) => {
-
-
+    const displayTask = (task) => {
         const taskName = document.createElement('h3');
         const due = document.createElement('p');
         const priority = document.createElement('p');
@@ -118,19 +112,25 @@ const task = () => {
         due.innerText = task.date;
         priority.innerText = task.priority;
         description.innerText = task.desc;
-        
+        const li = document.createElement('li');
+        li.appendChild(taskName);
+        li.appendChild(due);
+        li.appendChild(priority);
+        li.appendChild(description);
+        return li;
     }
 
     const displayTodos = () => {
-        const {todos} = ls.getProjects;
-        todos.map(p => createTodoCard(p));
+        const projects = ls.getProjects();
+        projects.todos.map(p => createTodoCard(p));
     }
  
-    return {createTask, taskForm}
+    return {createTask, taskForm, displayTodos}
 }
 
 const t = task();
+t.displayTodos();
 
 document.getElementById('add-task').addEventListener('click',t.taskForm);
-document.getElementById('create-task').addEventListener('click',t.createTask);
+
 export default task;
