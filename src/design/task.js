@@ -83,6 +83,30 @@ const task = () => {
         document.getElementById('addTodo').reset();
     }
 
+    const createTodoCard = (project) => {
+        `
+        h2.title
+            ul.tasks
+                li.task
+                    h3.taskName
+                    p.duedate
+                    p.priority
+                    p.desc
+        `
+        const projectNameElem = document.createElement('h2');
+        projectNameElem.setAttribute('id', project.projectId);
+        projectNameElem.innerText = project.projectName;
+
+        const p = project.tasks.map(t => createTask(t, projectNameElem));
+
+        const todosMain = document.querySelector('.main');
+        todosMain.appendChild(p);
+    }
+
+    const displayTodos = () => {
+        const {todos} = ls.getProjects;
+        todos.map(p => createTodoCard(p));
+    }
  
     return {createTask, taskForm}
 }
