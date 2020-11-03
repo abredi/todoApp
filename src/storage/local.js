@@ -17,9 +17,9 @@ export const local = () => {
   };
 
   const getProjects = () => {
-    let project = localStorage.getItem('project');
+    const project = localStorage.getItem('project');
     if (project) {
-      return JSON.parse(project);;
+      return JSON.parse(project);
     }
 
     return false

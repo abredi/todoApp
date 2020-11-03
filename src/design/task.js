@@ -4,11 +4,6 @@ let main = document.getElementById('main');
 
 const task = () => {
     const ls  = local();
-    document.getElementById('addTodo').style.display = 'none';
-
-    const taskUI = () => {
-        document.getElementById('addTodo').style.display = 'block';
-    }
 
     const taskForm = () => {
         const selectProject = document.createElement('select');
@@ -87,8 +82,9 @@ const task = () => {
 
         document.getElementById('addTodo').reset();
     }
+
  
-    return {taskUI,createTask, taskForm}
+    return {createTask, taskForm}
 }
 
 const t = task();
