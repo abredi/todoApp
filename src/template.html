@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="grid grid-cols-2-auto">
+  <body class="grid col-gap-4 grid-cols-2-auto md:col-gap-8 lg:col-gap-16">
     <header class="w-full h-20 col-span-2 bg-purple-600">
        <div class="flex items-center justify-start h-20 px-4 pl-8 bg-purple-600">
         <h1 class="text-2xl font-light leading-tight text-purple-100">
@@ -46,22 +46,11 @@
         </div>
       </section>
     </aside>
-    <main id="main" class="grid justify-between grid-cols-3 gap-8 p-3 modal">
-        <div id="modalStation">
-
+    <main id="main" class="">
+        <div id="modalStation"></div>
+        <div id="taskStation" class="max-w-full mt-5 overflow-hidden rounded">
+            
         </div>
-
-      <div class="max-w-sm overflow-hidden rounded shadow-lg">
-        
-        <!-- <div class="px-6 py-4">
-          <div class="mb-2 text-xl font-bold">The Coldest Sunset</div>
-          <p class="text-base text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Voluptatibus quia, nulla! Maiores et perferendis eaque,
-            exercitationem praesentium nihil.
-          </p>
-        </div> -->
-      </div>
     </main>
     
     <template id="tmpl-modal">

@@ -85,19 +85,11 @@ const task = () => {
   };
 
   const createTodoCard = (project) => {
-    `
-        div.card
-            h2.title
-            ul.tasks
-                li.task
-                    h3.taskName
-                    p.duedate
-                    p.priority
-                    p.desc
-        `;
     const projectNameElem = document.createElement("h2");
+    projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
     projectNameElem.innerText = project.projectName;
-    const ul = document.createElement("ul");
+    const ul = document.createElement('ul');
+    ul.classList.add('flex-row', 'divide-y-2', 'divide-purple-200', 'divide-dashed');
     ul.setAttribute("id", project.projectId);
     project.tasks.forEach((t) => {
       const task = displayTask(t);
@@ -113,6 +105,7 @@ const task = () => {
   };
 
   const displayTask = (task) => {
+ 
     const taskName = document.createElement("h3");
     const due = document.createElement("p");
     const priority = document.createElement("p");
@@ -126,6 +119,7 @@ const task = () => {
     li.appendChild(due);
     li.appendChild(priority);
     li.appendChild(description);
+    li.classList.add('px-8', 'py-4', 'shadow-lg')
     return li;
   };
 
