@@ -1,6 +1,5 @@
 import { cleanModal, TailwindButtonClass } from "../util/helpers";
 import { local } from "../storage/local";
-let main = document.getElementById("main");
 
 const task = () => {
   const ls = local();
@@ -82,6 +81,7 @@ const task = () => {
     ls.saveTodoTask({ projectId, title, desc, date, priority });
 
     document.getElementById("addTodo").reset();
+    cleanModal();
   };
 
   const createTodoCard = (project) => {
