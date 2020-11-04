@@ -4,26 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="">
-    <header class="w-full h-20 bg-purple-600">Header</header>
-    <div class="flex">
-      <aside class="inset-y-0 z-0 w-64 h-full min-h-full bg-purple-100">
-        <div class="flex justify-center m-8 align-middle border-purple-100">
-          <h2 class="text-xl text-center">Projects</h2>
+  <body class="grid grid-cols-2-auto">
+    <header class="w-full h-20 col-span-2 bg-purple-600">
+       <div class="flex items-center justify-start h-20 px-4 pl-8 bg-purple-600">
+        <h1 class="text-2xl font-light leading-tight text-purple-100">
+          Todo App
+        </h1>
+      </div>
+    </header>
+    <aside class="w-64 h-full min-h-full bg-purple-100">
+     
+      <div class="flex justify-around p-2 bg-purple-500 border-t-2 border-purple-100">
+        <button id="add-project"
+          class="px-3 py-1 text-sm font-normal leading-7 text-purple-700 bg-purple-100 border rounded-md hover:border-purple-700 focus:border-purple-700"
+          type="button"
+          id="add-project"
+        >
+          Project +
+        </button>
+        <button
+          id="add-task"
+          class="px-3 py-1 text-sm font-normal leading-7 text-purple-700 bg-purple-100 border rounded-md hover:border-purple-700 focus:border-purple-700"
+          type="submit"
+          id="add-task"
+        >
+          Task +
+        </button>
+      </div>
+      <section>
+        <div class="flex justify-center mt-2 align-middle border-purple-100">
+          <h2 class="text-xl font-light text-center text-gray-700">Projects</h2>
         </div>
-      </aside>
-      <main>
-        <div class="add-project">
-          <button type="button" id="add-project">project +</button>
-          <button type="submit" id="add-task">Add task</button>
+
+        <div class="flex justify-center">
+          <ul class="flex flex-col items-start" id="sidebarProjects">
+            <li class="py-1">
+              <a class="text-xl font-light cursor-pointer">Project X Demo</a>
+            </li>
+
+          </ul>
         </div>
-
-        <div class="modal"></div>
-
-        <section id="main"></section>
-      </main>
-    </div>
-
+      </section>
+    </aside>
+    <main id="main" class="grid justify-between grid-cols-3 gap-8 p-3 modal-station modal">
+      <div class="max-w-sm overflow-hidden rounded shadow-lg">
+        <div class="px-6 py-4">
+          <div class="mb-2 text-xl font-bold">The Coldest Sunset</div>
+          <p class="text-base text-gray-700">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Voluptatibus quia, nulla! Maiores et perferendis eaque,
+            exercitationem praesentium nihil.
+          </p>
+        </div>
+      </div>
+    </main>
+    
     <template id="tmpl-modal">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div
@@ -32,8 +67,6 @@
           <div class="fixed inset-0 transition-opacity">
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
           </div>
-          // This element is to trick the browser into centering the modal
-          contents.
           <span
             class="hidden sm:inline-block sm:align-middle sm:h-screen"
           ></span>
@@ -45,29 +78,7 @@
             aria-labelledby="modal-headline"
           >
             <div class="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
-              <div class="sm:flex sm:items-start">// working area</div>
-            </div>
-            <div
-              class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse"
-            >
-              <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                <button
-                  type="button"
-                  class="inline-flex justify-center w-full px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-red sm:text-sm sm:leading-5"
-                >
-                  Create
-                </button>
-              </span>
-              <span
-                class="flex w-full mt-3 rounded-md shadow-sm sm:mt-0 sm:w-auto"
-              >
-                <button
-                  type="button"
-                  class="inline-flex justify-center w-full px-4 py-2 text-base font-medium leading-6 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue sm:text-sm sm:leading-5"
-                >
-                  Cancel
-                </button>
-              </span>
+              <div id="working-station" class="sm:flex sm:items-start">// working area</div>
             </div>
           </div>
         </div>
