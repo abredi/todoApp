@@ -100,12 +100,11 @@ const task = () => {
     card.classList.add("card");
     card.appendChild(projectNameElem);
     card.appendChild(ul);
-    const todosMain = document.getElementById("main");
+    const todosMain = document.getElementById("taskStation");
     todosMain.appendChild(card);
   };
 
   const displayTask = (task) => {
- 
     const taskName = document.createElement("h3");
     const due = document.createElement("p");
     const priority = document.createElement("p");
@@ -123,6 +122,13 @@ const task = () => {
     return li;
   };
 
+  const selectProjectToDisplay = (event) => {
+    event.preventDefault();
+    const id = event.target.getAttribute('data');
+    cleanModal("taskStation");
+    displayTodos(false, id);
+  };
+
   const displayTodos = (sidebar = false, projectId = 0) => {
     const projects = ls.getProjects();
     if (!projects) {
@@ -135,6 +141,8 @@ const task = () => {
           const a = document.createElement("a");
           li.classList.add("py-1");
           a.classList.add('text-xl', 'font-light', 'cursor-pointer');
+          a.setAttribute('data', p.projectId);
+          a.addEventListener("click", selectProjectToDisplay);
           a.innerText = p.projectName;
           li.appendChild(a);
 
@@ -142,8 +150,8 @@ const task = () => {
         });
     }
     else if(projects) {
-      const selectProject = projects.todos.find( p => { return p.projectId == projectId;});
-      createTodoCard(selectProject);
+      const selectedProject = projects.todos.find( p => { return p.projectId == projectId;});
+      createTodoCard(selectedProject);
     }
      else {
       projects.todos.map((p) => createTodoCard(p));
