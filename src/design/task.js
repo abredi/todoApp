@@ -130,7 +130,7 @@ const task = () => {
     return li;
   };
 
-  const displayTodos = (sidebar = false) => {
+  const displayTodos = (sidebar = false, projectId = 0) => {
     const projects = ls.getProjects();
     if (!projects) {
       return;
@@ -147,9 +147,16 @@ const task = () => {
 
           ul.appendChild(li);
         });
-    } else {
+    }
+    else if(projects) {
+      projects.todos.filter( p => {
+        return p.projectId == projectId;
+      })
+    }
+     else {
       projects.todos.map((p) => createTodoCard(p));
     }
+   
   };
 
   return { createTask, taskForm, displayTodos };
