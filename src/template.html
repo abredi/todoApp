@@ -4,34 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        form {
-            margin-top: 2em;
-        }
-
-        form > * {
-            display: block;
-            margin: 1em;
-        }
-    </style>
-
 </head>
 <body>
 
-    <main> 
+    <main class="grid grid-cols-3 justify-between gap-8 p-3"> 
         <div class="add-project">
-            <button type="button" id="add-project">project +</button>
-            <button type="submit" id="add-task">Add task</button>
+            <button class="bg-green-700 hover:bg-green-900 focus:bg-green-900 p-2 text-white" type="button" id="add-project">project +</button>
+            <button class="bg-green-700 hover:bg-green-900 focus:bg-green-900 p-2 text-white" type="submit" id="add-task">Add task</button>
         </div>
 
-        <div class="modal"></div>
+        <div class="modal "></div>
 
     
         <section id="main"></section>

@@ -40,9 +40,11 @@ const todoUI = () => {
         projectFormWrapper.classList.add('project-form');
 
         const projectForm = document.createElement('form');
+        projectForm.classList.add('border','shadow-2xl','p-8');
         const projectName = document.createElement('input');
+        projectName.classList.add('border-b','p-4','hover:border-green-700','focus:border-green-700');
         const addPBtn = document.createElement('button');
-        
+        addPBtn.classList.add('bg-green-700', 'hover:bg-green-900', 'focus:bg-green-900','p-2', 'text-white')
         addPBtn.setAttribute('type','button');
         
         addPBtn.addEventListener('click', addProject);
@@ -50,7 +52,7 @@ const todoUI = () => {
 
         projectName.setAttribute('placeholder','Enter a project name');
         projectName.setAttribute('id', 'projectName');
-
+        projectName.classList.add('float-right');
         projectForm.appendChild(projectName);
         projectForm.appendChild(addPBtn);
         projectFormWrapper.appendChild(projectForm);
