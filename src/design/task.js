@@ -82,6 +82,7 @@ const task = () => {
     ls.saveTodoTask({ projectId, title, desc, date, priority });
 
     document.getElementById("addTodo").reset();
+    cleanModal();
   };
 
   const createTodoCard = (project) => {
