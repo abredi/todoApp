@@ -149,9 +149,8 @@ const task = () => {
         });
     }
     else if(projects) {
-      projects.todos.filter( p => {
-        return p.projectId == projectId;
-      })
+      const selectProject = projects.todos.find( p => { return p.projectId == projectId;});
+      createTodoCard(selectProject);
     }
      else {
       projects.todos.map((p) => createTodoCard(p));
