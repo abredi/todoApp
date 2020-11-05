@@ -1,5 +1,5 @@
-const cleanModal = () => {
-  const modal = document.getElementById("modalStation");
+const cleanModal = (id = "modalStation") => {
+  const modal = document.getElementById(id);
   while (modal.childElementCount > 0) {
     modal.removeChild(modal.firstElementChild);
   }

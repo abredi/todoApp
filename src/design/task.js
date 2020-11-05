@@ -1,6 +1,5 @@
 import { cleanModal, TailwindButtonClass } from "../util/helpers";
 import { local } from "../storage/local";
-let main = document.getElementById("main");
 
 const task = () => {
   const ls = local();
@@ -99,19 +98,11 @@ const task = () => {
   };
 
   const createTodoCard = (project) => {
-    `
-        div.card
-            h2.title
-            ul.tasks
-                li.task
-                    h3.taskName
-                    p.duedate
-                    p.priority
-                    p.desc
-        `;
     const projectNameElem = document.createElement("h2");
+    projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
     projectNameElem.innerText = project.projectName;
-    const ul = document.createElement("ul");
+    const ul = document.createElement('ul');
+    ul.classList.add('flex-row', 'divide-y-2', 'divide-purple-200', 'divide-dashed');
     ul.setAttribute("id", project.projectId);
     project.tasks.forEach((t) => {
       const task = displayTask(t);
@@ -122,7 +113,7 @@ const task = () => {
     card.classList.add("card");
     card.appendChild(projectNameElem);
     card.appendChild(ul);
-    const todosMain = document.getElementById("main");
+    const todosMain = document.getElementById("taskStation");
     todosMain.appendChild(card);
   };
 
@@ -140,7 +131,15 @@ const task = () => {
     li.appendChild(due);
     li.appendChild(priority);
     li.appendChild(description);
+    li.classList.add('px-8', 'py-4', 'shadow-lg')
     return li;
+  };
+
+  const selectProjectToDisplay = (event) => {
+    event.preventDefault();
+    const id = event.target.getAttribute('data');
+    cleanModal("taskStation");
+    displayTodos(false, id);
   };
 
   const displayTodos = (sidebar = false, projectId = 0) => {
@@ -155,6 +154,8 @@ const task = () => {
           const a = document.createElement("a");
           li.classList.add("py-1");
           a.classList.add('text-xl', 'font-light', 'cursor-pointer');
+          a.setAttribute('data', p.projectId);
+          a.addEventListener("click", selectProjectToDisplay);
           a.innerText = p.projectName;
           li.appendChild(a);
 
@@ -162,8 +163,8 @@ const task = () => {
         });
     }
     else if(projects) {
-      const selectProject = projects.todos.find( p => { return p.projectId == projectId;});
-      createTodoCard(selectProject);
+      const selectedProject = projects.todos.find( p => { return p.projectId == projectId;});
+      createTodoCard(selectedProject);
     }
      else {
       projects.todos.map((p) => createTodoCard(p));
