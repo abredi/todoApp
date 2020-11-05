@@ -28,6 +28,7 @@ const task = () => {
     desc.setAttribute("row", "10");
     desc.setAttribute("id", "desc");
     desc.setAttribute("placeholder", "Task description");
+    desc.classList.add('border-solid','border-1','border-gray-600','my-10');
     const date = document.createElement("input");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
@@ -40,9 +41,10 @@ const task = () => {
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
     submit.setAttribute("value", "Create Task");
-    submit.classList.add(...TailwindButtonClass);
+    submit.classList.add(...TailwindButtonClass,'my-10');
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
+    
     form.setAttribute("id", "addTodo");
     form.appendChild(selectProject);
     form.appendChild(title);
@@ -50,7 +52,6 @@ const task = () => {
     form.appendChild(date);
     form.appendChild(priority);
     form.appendChild(submit);
-
     const template = document.getElementById("tmpl-modal");
     let modalTmpl = template.content.cloneNode(true);
     let workStation = modalTmpl.getElementById("working-station");
