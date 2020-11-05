@@ -14,7 +14,7 @@ const task = () => {
     optDisabled.selected = "true";
     optDisabled.innerText = 'Select a project';
     selectProject.appendChild(optDisabled);
-    selectProject.appendChild(optDisabled)
+    selectProject.classList.add('border','border-purple-500')
     const projects = ls.getProjects();
     
     if (projects) {
@@ -31,21 +31,24 @@ const task = () => {
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add('border','border-purple-500','p-1');
+    title.classList.add('border','border-purple-500','px-3');
     const desc = document.createElement("textarea");
     desc.setAttribute("cols", "30");
     desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
+    desc.classList.add('border','border-purple-500','px-3')
     desc.setAttribute("placeholder", "Task description");
-    desc.classList.add('border-solid','border-1','border-gray-600','my-10');
+    desc.classList.add('border','border-solid','border-1','border-gray-600','my-10','p-3');
     const date = document.createElement("input");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
+    date.classList.add('border','border-purple-500');
     const priority = document.createElement("input");
     priority.setAttribute("type", "number");
     priority.setAttribute("id", "priority");
     priority.setAttribute("placeholder", "Task priority");
+    priority.classList.add('border','border-purple-500','px-3');
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
