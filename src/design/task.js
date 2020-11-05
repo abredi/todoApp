@@ -9,7 +9,14 @@ const task = () => {
     const selectProject = document.createElement("select");
     selectProject.setAttribute("required", "required");
     selectProject.setAttribute("id", "projectId");
+    const optDisabled = document.createElement('option');
+    optDisabled.setAttribute('disabled','disabled');
+    optDisabled.selected = "true";
+    optDisabled.innerText = 'Select a project';
+    selectProject.appendChild(optDisabled);
+    selectProject.appendChild(optDisabled)
     const projects = ls.getProjects();
+    
     if (projects) {
       projects.todos.map((p) => {
         const opt = document.createElement("option");
@@ -18,14 +25,16 @@ const task = () => {
         selectProject.appendChild(opt);
       });
     }
-
+    
     const title = document.createElement("input");
     title.setAttribute("type", "text");
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
+    title.setAttribute("placeholder", "Task title");
+    title.classList.add('border','border-purple-500','p-1');
     const desc = document.createElement("textarea");
     desc.setAttribute("cols", "30");
-    desc.setAttribute("row", "10");
+    desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
     desc.setAttribute("placeholder", "Task description");
     desc.classList.add('border-solid','border-1','border-gray-600','my-10');
