@@ -42,10 +42,6 @@ module.exports = {
       deleteOriginalAssets: false,
     }),
 
-    // new PurgecssPlugin({
-    //   paths: glob.sync(`${appPath.ENTRY_SRC}/**/*`, { nodir: true }),
-    // }),
-
     new HtmlPlugin({
       title: "Todo App",
       template: `${appPath.ENTRY_SRC}/template.html`,
