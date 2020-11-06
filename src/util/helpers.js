@@ -24,8 +24,36 @@ const cancelModal = (event) => {
   cleanModal();
 };
 
+const createSelectElement = (ary, key, value) => {
+  const selectElem = document.createElement("select");
+  selectElem.setAttribute("required", "required");
+  selectElem.setAttribute("id", "projectId");
+  const optDisabled = document.createElement("option");
+  optDisabled.setAttribute("disabled", "disabled");
+  optDisabled.selected = "true";
+  optDisabled.innerText = "Choose One";
+  selectElem.appendChild(optDisabled);
+  selectElem.classList.add("border", "border-purple-500");
+
+  if (ary) {
+    ary.map((item) => {
+      const opt = document.createElement("option");
+      opt.setAttribute("value", item[value]);
+      opt.innerText = item[key];
+      selectElem.appendChild(opt);
+    });
+  }
+  return selectElem;
+};
+
 const TailwindButtonClass = `inline-flex justify-center w-full px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-purple-600 border border-transparent rounded-md shadow-sm hover:bg-purple-500 focus:outline-none focus:border-purple-700 focus:shadow-outline-red sm:text-sm sm:leading-5`.split(
   " "
 );
 
-export { cancelModal, cleanModal, createListItem, TailwindButtonClass };
+export {
+  createSelectElement,
+  cancelModal,
+  cleanModal,
+  createListItem,
+  TailwindButtonClass,
+};

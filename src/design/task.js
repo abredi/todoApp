@@ -2,7 +2,8 @@ import {
   cleanModal,
   createListItem,
   TailwindButtonClass,
-  cancelModal
+  cancelModal,
+  createSelectElement,
 } from "../util/helpers";
 import { local } from "../storage/local";
 
@@ -10,57 +11,59 @@ const task = () => {
   const ls = local();
 
   const taskForm = () => {
-    const selectProject = document.createElement("select");
-    selectProject.setAttribute("required", "required");
-    selectProject.setAttribute("id", "projectId");
-    const optDisabled = document.createElement('option');
-    optDisabled.setAttribute('disabled','disabled');
-    optDisabled.selected = "true";
-    optDisabled.innerText = 'Select a project';
-    selectProject.appendChild(optDisabled);
-    selectProject.classList.add('border','border-purple-500')
     const projects = ls.getProjects();
-    
-    if (projects) {
-      projects.todos.map((p) => {
-        const opt = document.createElement("option");
-        opt.setAttribute("value", p.projectId);
-        opt.innerText = p.projectName;
-        selectProject.appendChild(opt);
-      });
-    }
-    
+    const selectProject = createSelectElement(
+      projects.todos,
+      "projectName",
+      "projectId"
+    );
+
     const title = document.createElement("input");
     title.setAttribute("type", "text");
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add('border','border-purple-500','px-3');
+    title.classList.add("border", "border-purple-500", "px-3");
     const desc = document.createElement("textarea");
     desc.setAttribute("cols", "30");
     desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
-    desc.classList.add('border','border-purple-500','px-3')
+    desc.classList.add("border", "border-purple-500", "px-3");
     desc.setAttribute("placeholder", "Task description");
-    desc.classList.add('border','border-solid','border-1','border-gray-600','my-10','p-3');
+    desc.classList.add(
+      "border",
+      "border-solid",
+      "border-1",
+      "border-gray-600",
+      "my-10",
+      "p-3"
+    );
     const date = document.createElement("input");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add('border','border-purple-500');
-    const priority = document.createElement("input");
-    priority.setAttribute("type", "number");
-    priority.setAttribute("id", "priority");
+    date.classList.add("border", "border-purple-500");
+
+    const priority = createSelectElement(
+      [
+        { priorityName: "One", priorityValue: "1" },
+        { priorityName: "Two", priorityValue: "2" },
+        { priorityName: "Three", priorityValue: "3" },
+      ],
+      "priorityName",
+      "priorityValue"
+    );
     priority.setAttribute("placeholder", "Task priority");
-    priority.classList.add('border','border-purple-500','px-3');
+    priority.classList.add('border', 'border-purple-500', 'px-3');
+
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
     submit.setAttribute("value", "Create Task");
-    submit.classList.add(...TailwindButtonClass,'my-10');
+    submit.classList.add(...TailwindButtonClass, "my-10");
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
-    
+
     form.setAttribute("id", "addTodo");
     form.appendChild(selectProject);
     form.appendChild(title);
@@ -104,6 +107,10 @@ const task = () => {
     cleanModal();
   };
 
+  const toggleVisibility = (event) => {
+    event.target.nextElementSibling.classList.toggle("hidden");
+  };
+
   const createTodoCard = (project) => {
     const cardHeader = document.createElement("div");
     cardHeader.classList.add(
@@ -123,7 +130,6 @@ const task = () => {
     const projectNameElem = document.createElement("h2");
     projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
     projectNameElem.innerText = project.projectName;
-  
     cardHeader.appendChild(projectNameElem);
     cardHeader.appendChild(delElem);
     const ul = document.createElement("ul");
@@ -152,7 +158,7 @@ const task = () => {
     const pid = event.target.getAttribute("data-pid");
     if (pid) {
       ls.deleteProjectById(pid);
-      const projectCard = document.querySelector(`[data-card-pid="${pid}"]`);;
+      const projectCard = document.querySelector(`[data-card-pid="${pid}"]`);
       const projectList = document.querySelector(`a[data="${pid}"]`);
       if (projectCard) {
         projectCard.parentElement.removeChild(projectCard);
@@ -171,8 +177,9 @@ const task = () => {
       ls.deleteTaskById(pid, tid);
       const taskList = document.querySelector(`button[data-tid="${tid}"]`);
       if (taskList) {
-        taskList.parentElement.parentElement.removeChild(taskList.parentElement);  
-
+        taskList.parentElement.parentElement.removeChild(
+          taskList.parentElement
+        );
       }
     }
     return false;
@@ -180,6 +187,9 @@ const task = () => {
 
   const displayTask = (task) => {
     const taskName = document.createElement("h3");
+    taskName.innerText = task.title;
+    taskName.addEventListener("click", toggleVisibility);
+    taskName.classList.add("cursor-pointer");
     const due = document.createElement("p");
     const priority = document.createElement("p");
     const description = document.createElement("p");
@@ -197,16 +207,21 @@ const task = () => {
     );
     delTaskElem.innerText = "Delete";
     delTaskElem.addEventListener("click", deleteTask);
-    taskName.innerText = task.title;
+
     due.innerText = task.date;
     priority.innerText = task.priority;
     description.innerText = task.desc;
+    const taskDetail = document.createElement("div");
+    taskDetail.classList.add("hidden");
+    taskDetail.appendChild(due);
+    taskDetail.appendChild(priority);
+    taskDetail.appendChild(description);
+    taskDetail.appendChild(delTaskElem);
+
     const li = document.createElement("li");
     li.appendChild(taskName);
-    li.appendChild(due);
-    li.appendChild(priority);
-    li.appendChild(description);
-    li.appendChild(delTaskElem);
+    li.appendChild(taskDetail);
+    const bg
     li.classList.add("px-8", "py-4", "shadow-lg", "relative");
     return li;
   };
@@ -234,14 +249,18 @@ const task = () => {
     }
   };
 
+
+
+  const createSidebarList = (projects) => {
+    const ul = document.getElementById("sidebarProjects");
+    projects.todos.forEach((p) => {
+      const li = createListItem(p, ul);
+      ul.appendChild(li);
+    });
+  };
+
+
   return { createTask, taskForm, displayTodos };
 };
 
 export default task;
-function createSidebarList(projects) {
-  const ul = document.getElementById("sidebarProjects");
-  projects.todos.forEach((p) => {
-    const li = createListItem(p, ul);
-    ul.appendChild(li);
-  });
-}
