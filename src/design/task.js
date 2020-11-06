@@ -1,4 +1,8 @@
-import { cleanModal, createListItem, TailwindButtonClass } from "../util/helpers";
+import {
+  cleanModal,
+  createListItem,
+  TailwindButtonClass,
+} from "../util/helpers";
 import { local } from "../storage/local";
 
 const task = () => {
@@ -95,9 +99,9 @@ const task = () => {
       "bg-purple-100",
       "cursor-pointer"
     );
-    const delElem = document.createElement("span");
+    const delElem = document.createElement("button");
     delElem.setAttribute("data-pid", project.projectId);
-    delElem.classList.add("text-sm");
+    delElem.classList.add("text-sm", "text-red-600");
     delElem.innerText = "Delete";
     delElem.addEventListener("click", deleteProject);
     const projectNameElem = document.createElement("h2");
@@ -118,11 +122,27 @@ const task = () => {
       ul.appendChild(task);
     });
     const card = document.createElement("div");
+    card.setAttribute("data-card-pid", project.projectId);
     card.classList.add("card");
     card.appendChild(cardHeader);
     card.appendChild(ul);
     const todosMain = document.getElementById("taskStation");
     todosMain.appendChild(card);
+  };
+
+  const deleteProject = (event) => {
+    event.preventDefault();
+    const pid = event.target.getAttribute("data-pid");
+    if (pid) {
+      ls.deleteProjectById(pid);
+      const projectCard = document.querySelector(`[data-card-pid="${pid}"]`);;
+      const projectList = document.querySelector(`a[data="${pid}"]`);
+      if (projectCard) {
+        projectCard.parentElement.removeChild(projectCard);
+        projectList.parentElement.removeChild(projectList);
+      }
+    }
+    return false;
   };
 
   const deleteTask = (event) => {
@@ -132,15 +152,11 @@ const task = () => {
     const tid = event.target.getAttribute("data-tid");
     if (pid && tid) {
       ls.deleteTaskById(pid, tid);
-    }
-    return false;
-  };
+      const taskList = document.querySelector(`button[data-tid="${tid}"]`);
+      if (taskList) {
+        taskList.parentElement.parentElement.removeChild(taskList.parentElement);  
 
-  const deleteProject = (event) => {
-    event.preventDefault();
-    const pid = event.target.getAttribute("data-pid");
-    if (pid) {
-      ls.deleteProjectById(pid);
+      }
     }
     return false;
   };
@@ -150,7 +166,7 @@ const task = () => {
     const due = document.createElement("p");
     const priority = document.createElement("p");
     const description = document.createElement("p");
-    const delTaskElem = document.createElement("span");
+    const delTaskElem = document.createElement("button");
     delTaskElem.setAttribute("data-pid", task.projectId);
     delTaskElem.setAttribute("data-tid", task.taskId);
     delTaskElem.classList.add(
@@ -158,7 +174,8 @@ const task = () => {
       "bottom-10",
       "right-5",
       "cursor-pointer",
-      "text-sm"
+      "text-sm",
+      "text-red-600"
     );
     delTaskElem.innerText = "Delete";
     delTaskElem.addEventListener("click", deleteTask);
