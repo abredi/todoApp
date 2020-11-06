@@ -64,6 +64,18 @@ export const local = () => {
     return false;
   };
 
+    const getTaskById = (projectId, taskId) => {
+      const project = getProjectById(projectId);
+      if (!project) {
+        return false
+      }
+      const task = project.tasks.find((t) => t.taskId == taskId);
+      if (task) {
+        return task;
+      }
+      return false;
+    };
+
   const deleteProjectById = (id) => {
     const projects = getProjects();
     const filteredProjects = projects.todos.filter((p) => p.projectId != id);
@@ -90,5 +102,6 @@ export const local = () => {
     saveTodoProject,
     getProjects,
     saveTodoTask,
+    getTaskById,
   };
 };

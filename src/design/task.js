@@ -10,7 +10,7 @@ import { local } from "../storage/local";
 const task = () => {
   const ls = local();
 
-  const taskForm = () => {
+  const taskForm = (task = {}) => {
     const projects = ls.getProjects();
     const selectProject = createSelectElement(
       projects.todos,
@@ -21,6 +21,7 @@ const task = () => {
 
     const title = document.createElement("input");
     title.setAttribute("type", "text");
+    title.setAttribute("value", task.title || "");
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
@@ -55,7 +56,7 @@ const task = () => {
       "priorityValue"
     );
     priority.setAttribute("placeholder", "Task priority");
-    priority.classList.add('border', 'border-indigo-500', 'px-3');
+    priority.classList.add("border", "border-indigo-500", "px-3");
     priority.setAttribute("id", "priority");
 
     const submit = document.createElement("input");
@@ -187,6 +188,22 @@ const task = () => {
     return false;
   };
 
+  const editTask = (event) => {
+    event.preventDefault();
+
+    const pid = event.target.getAttribute("data-pid");
+    const tid = event.target.getAttribute("data-tid");
+    if (!pid || !tid) {
+      return;
+    }
+    const task = ls.getTaskById(pid, tid);
+    if (!task) {
+      return;
+    }
+
+    taskForm(task);
+  };
+
   const displayTask = (task) => {
     const taskName = document.createElement("h3");
     taskName.innerText = task.title;
@@ -210,6 +227,21 @@ const task = () => {
     delTaskElem.innerText = "Delete";
     delTaskElem.addEventListener("click", deleteTask);
 
+    const editTaskElem = document.createElement("button");
+    editTaskElem.setAttribute("data-pid", task.projectId);
+    editTaskElem.setAttribute("data-tid", task.taskId);
+    editTaskElem.classList.add(
+      "absolute",
+      "bottom-10",
+      "right-10",
+      "cursor-pointer",
+      "text-sm",
+      "text-indigo-900",
+      "focus:outline-none"
+    );
+    editTaskElem.innerText = "Edit";
+    editTaskElem.addEventListener("click", editTask);
+
     due.innerText = task.date;
     priority.innerText = task.priority;
     description.innerText = task.desc;
@@ -218,6 +250,7 @@ const task = () => {
     taskDetail.appendChild(due);
     taskDetail.appendChild(priority);
     taskDetail.appendChild(description);
+    taskDetail.appendChild(editTaskElem);
     taskDetail.appendChild(delTaskElem);
     const li = document.createElement("li");
     li.appendChild(taskName);
@@ -256,8 +289,6 @@ const task = () => {
     }
   };
 
-
-
   const createSidebarList = (projects) => {
     const ul = document.getElementById("sidebarProjects");
     projects.todos.forEach((p) => {
@@ -265,7 +296,6 @@ const task = () => {
       ul.appendChild(li);
     });
   };
-
 
   return { createTask, taskForm, displayTodos };
 };
