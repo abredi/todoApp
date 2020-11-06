@@ -30,7 +30,7 @@ const task = () => {
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border-b", "border-indigo-500", "px-3");
+    title.classList.add("border-b", "border-indigo-500", 'w-full');
     const desc = document.createElement("textarea");
     desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
@@ -44,14 +44,15 @@ const task = () => {
       "border-1",
       "border-gray-600",
       "p-3",
-      "col-span-2"
+      "col-span-2",
+      "w-full"
     );
     const date = document.createElement("input");
     date.setAttribute("value", task.date || "");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add("border-b", "border-indigo-500");
+    date.classList.add("border-b", "border-indigo-500", 'w-full');
 
     const priority = createSelectElement(
       [
@@ -78,7 +79,14 @@ const task = () => {
     submit.classList.add(...TailwindButtonClass);
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
-    form.classList.add("grid", "gap-6", "grid-cols-2");
+    form.classList.add(
+      "p-2",
+      "flex",
+      "flex-col",
+      "row-gap-8",
+      "w-full",
+      "pt-6"
+    );
     form.setAttribute("id", "addTodo");
     form.appendChild(selectProject);
     form.appendChild(title);

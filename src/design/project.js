@@ -5,6 +5,7 @@ import {
   createCardHeader,
   deleteProject,
   createUL,
+  TailwindButtonClass,
 } from "../util/helpers";
 import { local } from "../storage/local";
 
@@ -49,13 +50,7 @@ const todoUI = () => {
       "w-full"
     );
     const addPBtn = document.createElement("button");
-    addPBtn.classList.add(
-      "bg-indigo-700",
-      "hover:bg-indigo-900",
-      "focus:bg-indigo-900",
-      "p-2",
-      "text-white"
-    );
+    addPBtn.classList.add(...TailwindButtonClass);
     addPBtn.setAttribute("type", "button");
 
     addPBtn.addEventListener("click", addProject);
