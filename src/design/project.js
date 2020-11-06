@@ -33,6 +33,7 @@ const todoUI = () => {
 
     const todosMain = document.getElementById("taskStation");
     todosMain.appendChild(card);
+    cleanModal();
   };
 
   const createAddProjectForm = () => {
