@@ -24,12 +24,15 @@ const cancelModal = (event) => {
   cleanModal();
 };
 
-const createSelectElement = (ary, key, value) => {
+const createSelectElement = (ary, key, value, selectedValue = null) => {
   const selectElem = document.createElement("select");
   selectElem.setAttribute("required", "required");
   const optDisabled = document.createElement("option");
   optDisabled.setAttribute("disabled", "disabled");
-  optDisabled.selected = "true";
+  if (!selectedValue) {
+    optDisabled.selected = "true";
+  }
+  
   optDisabled.innerText = "Choose One";
   selectElem.appendChild(optDisabled);
   selectElem.classList.add("border", "border-indigo-500");
@@ -37,6 +40,9 @@ const createSelectElement = (ary, key, value) => {
   if (ary) {
     ary.map((item) => {
       const opt = document.createElement("option");
+      if (selectedValue == item[value]) {
+        opt.selected = true;
+      }
       opt.setAttribute("value", item[value]);
       opt.innerText = item[key];
       selectElem.appendChild(opt);

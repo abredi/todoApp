@@ -15,7 +15,8 @@ const task = () => {
     const selectProject = createSelectElement(
       projects.todos,
       "projectName",
-      "projectId"
+      "projectId",
+      task.projectId
     );
     selectProject.setAttribute("id", "projectId");
 
@@ -27,6 +28,7 @@ const task = () => {
     title.setAttribute("placeholder", "Task title");
     title.classList.add("border", "border-indigo-500", "px-3");
     const desc = document.createElement("textarea");
+    desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
     desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
@@ -41,6 +43,7 @@ const task = () => {
       "p-3"
     );
     const date = document.createElement("input");
+    date.setAttribute("value", task.date || "");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
@@ -53,7 +56,8 @@ const task = () => {
         { priorityName: "Three", priorityValue: "3" },
       ],
       "priorityName",
-      "priorityValue"
+      "priorityValue",
+      task.priority || null
     );
     priority.setAttribute("placeholder", "Task priority");
     priority.classList.add("border", "border-indigo-500", "px-3");
@@ -62,7 +66,8 @@ const task = () => {
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
-    submit.setAttribute("value", "Create Task");
+    const submitLabel = task.hasOwnProperty('projectId') ? 'Update Task' : 'Create Task';
+    submit.setAttribute("value", submitLabel);
     submit.classList.add(...TailwindButtonClass, "my-10");
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
