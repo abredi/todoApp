@@ -1,9 +1,12 @@
 import {
+  deleteProject,
+  createUL,
   cleanModal,
   createListItem,
   TailwindButtonClass,
   cancelModal,
   createSelectElement,
+  createCardHeader,
 } from "../util/helpers";
 import { local } from "../storage/local";
 
@@ -16,7 +19,8 @@ const task = () => {
       projects.todos,
       "projectName",
       "projectId",
-      task.projectId
+      task.projectId,
+      'Project'
     );
     selectProject.setAttribute("id", "projectId");
 
@@ -26,28 +30,28 @@ const task = () => {
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border", "border-indigo-500", "px-3");
+    title.classList.add("border-b", "border-indigo-500", "px-3");
     const desc = document.createElement("textarea");
     desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
     desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
-    desc.classList.add("border", "border-indigo-500", "px-3");
+    desc.classList.add("border-b", "border-indigo-500", "px-3");
     desc.setAttribute("placeholder", "Task description");
     desc.classList.add(
-      "border",
+      "border-b",
       "border-solid",
       "border-1",
       "border-gray-600",
-      "my-10",
-      "p-3"
+      "p-3",
+      "col-span-2"
     );
     const date = document.createElement("input");
     date.setAttribute("value", task.date || "");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add("border", "border-indigo-500");
+    date.classList.add("border-b", "border-indigo-500");
 
     const priority = createSelectElement(
       [
@@ -57,32 +61,32 @@ const task = () => {
       ],
       "priorityName",
       "priorityValue",
-      task.priority || null
+      task.priority || "",
+      'Priority'
     );
     priority.setAttribute("placeholder", "Task priority");
-    priority.classList.add("border", "border-indigo-500", "px-3");
     priority.setAttribute("id", "priority");
 
-    // @Todo
-    //Create hidden input field for the taskId
-    
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
-    const submitLabel = task.hasOwnProperty('projectId') ? 'Update Task' : 'Create Task';
+    const submitLabel = task.hasOwnProperty("projectId")
+      ? "Update Task"
+      : "Create Task";
     submit.setAttribute("value", submitLabel);
-    submit.setAttribute("task-id", task.taskId || null);
-    submit.classList.add(...TailwindButtonClass, "my-10");
+    submit.setAttribute("task-id", task.taskId || "");
+    submit.classList.add(...TailwindButtonClass);
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
-
+    form.classList.add("grid", "gap-6", "grid-cols-2");
     form.setAttribute("id", "addTodo");
     form.appendChild(selectProject);
     form.appendChild(title);
-    form.appendChild(desc);
     form.appendChild(date);
     form.appendChild(priority);
+    form.appendChild(desc);
     form.appendChild(submit);
+
     const template = document.getElementById("tmpl-modal");
     const modalTmpl = template.content.cloneNode(true);
     const workStation = modalTmpl.getElementById("working-station");
@@ -108,18 +112,27 @@ const task = () => {
 
     let taskData = { projectId, title, desc, date, priority };
 
-    if (taskId) {
+    const updateProcess = taskId && taskId != "";
+    if (updateProcess) {
       taskData = { ...taskData, taskId };
     }
 
     taskId = ls.saveTodoTask(taskData);
 
-    taskData = { projectId, taskId, title, desc, date, priority };
+    taskData = { ...taskData, taskId };
 
     const taskElem = displayTask(taskData);
-    const projectElem = document.getElementById(projectId);
-    if (projectElem) {
-      projectElem.appendChild(taskElem);
+
+    if (updateProcess) {
+      const taskUi = document.querySelector(
+        `[data-task-id="${projectId}_${taskId}"]`
+      );
+      taskUi.parentElement.replaceChild(taskElem, taskUi);
+    } else {
+      const projectElem = document.getElementById(projectId);
+      if (projectElem) {
+        projectElem.appendChild(taskElem);
+      }
     }
 
     document.getElementById("addTodo").reset();
@@ -131,34 +144,8 @@ const task = () => {
   };
 
   const createTodoCard = (project) => {
-    const cardHeader = document.createElement("div");
-    cardHeader.classList.add(
-      "flex",
-      "items-center",
-      "justify-between",
-      "px-8",
-      "py-4",
-      "bg-indigo-100",
-      "cursor-pointer"
-    );
-    const delElem = document.createElement("button");
-    delElem.setAttribute("data-pid", project.projectId);
-    delElem.classList.add("text-sm", "text-red-600", "focus:outline-none");
-    delElem.innerText = "Delete";
-    delElem.addEventListener("click", deleteProject);
-    const projectNameElem = document.createElement("h2");
-    projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
-    projectNameElem.innerText = project.projectName;
-    cardHeader.appendChild(projectNameElem);
-    cardHeader.appendChild(delElem);
-    const ul = document.createElement("ul");
-    ul.classList.add(
-      "flex-row",
-      "divide-y-2",
-      "divide-indigo-200",
-      "divide-dashed"
-    );
-    ul.setAttribute("id", project.projectId);
+    const cardHeader = createCardHeader(project, deleteProject);
+    const ul = createUL(project);
     project.tasks.forEach((t) => {
       const task = displayTask(t);
       ul.appendChild(task);
@@ -172,21 +159,6 @@ const task = () => {
     todosMain.appendChild(card);
   };
 
-  const deleteProject = (event) => {
-    event.preventDefault();
-    const pid = event.target.getAttribute("data-pid");
-    if (pid) {
-      ls.deleteProjectById(pid);
-      const projectCard = document.querySelector(`[data-card-pid="${pid}"]`);
-      const projectList = document.querySelector(`a[data="${pid}"]`);
-      if (projectCard) {
-        projectCard.parentElement.removeChild(projectCard);
-        projectList.parentElement.removeChild(projectList);
-      }
-    }
-    return false;
-  };
-
   const deleteTask = (event) => {
     event.preventDefault();
 
@@ -194,11 +166,11 @@ const task = () => {
     const tid = event.target.getAttribute("data-tid");
     if (pid && tid) {
       ls.deleteTaskById(pid, tid);
-      const taskList = document.querySelector(`button[data-tid="${tid}"]`);
+      const taskList = document.querySelector(
+        `li[data-task-id="${pid}_${tid}"]`
+      );
       if (taskList) {
-        taskList.parentElement.parentElement.removeChild(
-          taskList.parentElement
-        );
+        taskList.parentElement.removeChild(taskList);
       }
     }
     return false;
@@ -269,6 +241,7 @@ const task = () => {
     taskDetail.appendChild(editTaskElem);
     taskDetail.appendChild(delTaskElem);
     const li = document.createElement("li");
+    li.setAttribute("data-task-id", `${task.projectId}_${task.taskId}`);
     li.appendChild(taskName);
     li.appendChild(taskDetail);
     const priorityNumber = parseInt(task.priority, 10);
@@ -305,6 +278,14 @@ const task = () => {
     }
   };
 
+  const displayAllProjects = (event) => {
+    event.preventDefault();
+    cleanModal();
+    cleanModal("sidebarProjects");
+    cleanModal("taskStation");
+    displayTodos();
+  };
+
   const createSidebarList = (projects) => {
     const ul = document.getElementById("sidebarProjects");
     projects.todos.forEach((p) => {
@@ -313,7 +294,7 @@ const task = () => {
     });
   };
 
-  return { createTask, taskForm, displayTodos };
+  return { displayAllProjects, createTask, taskForm, displayTodos };
 };
 
 export default task;

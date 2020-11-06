@@ -1,72 +1,86 @@
-import { cleanModal, createListItem } from "../util/helpers";
+import {
+  cancelModal,
+  cleanModal,
+  createListItem,
+  createCardHeader,
+  deleteProject,
+  createUL,
+} from "../util/helpers";
 import { local } from "../storage/local";
 
 const todoUI = () => {
+  const addProject = () => {
+    const ls = local();
+    const projectNameInpElem = document.getElementById("projectName");
+    const projectName = projectNameInpElem.value;
+    if (!projectName || projectName == "") {
+      return;
+    }
 
-    const addProject = () => {
-        const ls = local();
-        const projectNameInpElem = document.getElementById('projectName');
-        const projectName = projectNameInpElem.value;
-        if (!projectName || projectName == '') {
-            return;
-        }
+    const pid = ls.saveTodoProject(projectName);
+    const newProject = { projectName, projectId: pid };
 
-        const pid = ls.saveTodoProject(projectName);
+    const sidebar = document.getElementById("sidebarProjects");
+    sidebar.appendChild(createListItem(newProject));
 
-        const sidebar = document.getElementById("sidebarProjects");
-        sidebar.appendChild(createListItem({ projectName, projectId: pid }));
+    const projectNameElem = createCardHeader(newProject, deleteProject);
+    const ul = createUL(newProject);
+    const card = document.createElement("div");
+    card.setAttribute("data-card-pid", newProject.projectId);
+    card.classList.add("card");
+    card.appendChild(projectNameElem);
+    card.appendChild(ul);
 
-        const projectNameElem = document.createElement('h2');
-        projectNameElem.innerText = projectName;
+    const todosMain = document.getElementById("taskStation");
+    todosMain.appendChild(card);
+  };
 
-        const ul = document.createElement('ul');
-        ul.setAttribute('id', pid);
+  const createAddProjectForm = () => {
+    const projectForm = document.createElement("form");
 
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.appendChild(projectNameElem);
-        card.appendChild(ul);
+    projectForm.classList.add("flex", "flex-col", "gap-y-6", "w-full");
+    const projectName = document.createElement("input");
+    projectName.classList.add(
+      "border-b",
+      "p-4",
+      "hover:border-indigo-700",
+      "focus:border-indigo-700",
+      "w-full"
+    );
+    const addPBtn = document.createElement("button");
+    addPBtn.classList.add(
+      "bg-indigo-700",
+      "hover:bg-indigo-900",
+      "focus:bg-indigo-900",
+      "p-2",
+      "text-white"
+    );
+    addPBtn.setAttribute("type", "button");
 
-        const todosMain = document.getElementById("taskStation");
-        todosMain.appendChild(card);
+    addPBtn.addEventListener("click", addProject);
+    addPBtn.innerText = "Add a project";
 
-        projectNameInpElem.value = '';
-    };
+    projectName.setAttribute("placeholder", "Enter a project name");
+    projectName.setAttribute("id", "projectName");
+    projectName.classList.add("float-right");
+    projectForm.appendChild(projectName);
+    projectForm.appendChild(addPBtn);
 
-    const createAddProjectForm = () => {
-        const addProjectExist = document.querySelector('.project-form');
+    const template = document.getElementById("tmpl-modal");
+    const modalTmpl = template.content.cloneNode(true);
+    const workStation = modalTmpl.getElementById("working-station");
+    const modalContainer = modalTmpl.getElementById("modalContainer");
 
-        if (addProjectExist) {
-            return;
-        }
+    modalContainer.addEventListener("click", cancelModal);
 
-        const projectFormWrapper = document.createElement('div');
-        projectFormWrapper.classList.add('project-form');
+    workStation.appendChild(projectForm);
 
-        const projectForm = document.createElement('form');
-        projectForm.classList.add('border','shadow-2xl','p-8');
-        const projectName = document.createElement('input');
-        projectName.classList.add('border-b','p-4','hover:border-green-700','focus:border-green-700');
-        const addPBtn = document.createElement('button');
-        addPBtn.classList.add('bg-green-700', 'hover:bg-green-900', 'focus:bg-green-900','p-2', 'text-white')
-        addPBtn.setAttribute('type','button');
-        
-        addPBtn.addEventListener('click', addProject);
-        addPBtn.innerText = "Add a project";
+    const modal = cleanModal();
 
-        projectName.setAttribute('placeholder','Enter a project name');
-        projectName.setAttribute('id', 'projectName');
-        projectName.classList.add('float-right');
-        projectForm.appendChild(projectName);
-        projectForm.appendChild(addPBtn);
-        projectFormWrapper.appendChild(projectForm);
+    modal.appendChild(modalTmpl);
+  };
 
-        const modal = cleanModal();
-        modal.appendChild(projectFormWrapper);
-    };
-
-    return { createAddProjectForm }
-
+  return { createAddProjectForm };
 };
 
-export default todoUI
+export default todoUI;
