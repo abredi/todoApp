@@ -176,7 +176,7 @@ const task = () => {
     return li;
   };
 
-  const selectProjectToDisplay = (event) => {
+  window.selectProjectToDisplay = (event) => {
     event.preventDefault();
     const id = event.target.getAttribute("data");
     cleanModal("taskStation");

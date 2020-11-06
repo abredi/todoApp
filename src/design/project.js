@@ -1,19 +1,23 @@
-import { cleanModal } from "../util/helpers";
+import { cleanModal, createListItem } from "../util/helpers";
 import { local } from "../storage/local";
 
 const todoUI = () => {
 
     const addProject = () => {
         const ls = local();
-        const projectName = document.getElementById('projectName');
-        if (projectName.value == '') {
+        const projectNameInpElem = document.getElementById('projectName');
+        const projectName = projectNameInpElem.value;
+        if (!projectName || projectName == '') {
             return;
         }
 
-        const pid = ls.saveTodoProject(projectName.value);
+        const pid = ls.saveTodoProject(projectName);
+
+        const sidebar = document.getElementById("sidebarProjects");
+        sidebar.appendChild(createListItem({ projectName, projectId: pid }));
 
         const projectNameElem = document.createElement('h2');
-        projectNameElem.innerText = projectName.value;
+        projectNameElem.innerText = projectName;
 
         const ul = document.createElement('ul');
         ul.setAttribute('id', pid);
@@ -23,10 +27,10 @@ const todoUI = () => {
         card.appendChild(projectNameElem);
         card.appendChild(ul);
 
-        const todosMain = document.getElementById('main');
+        const todosMain = document.getElementById("taskStation");
         todosMain.appendChild(card);
 
-        projectName.value = '';
+        projectNameInpElem.value = '';
     };
 
     const createAddProjectForm = () => {
