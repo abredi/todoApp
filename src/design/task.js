@@ -2,6 +2,7 @@ import {
   cleanModal,
   createListItem,
   TailwindButtonClass,
+  cancelModal
 } from "../util/helpers";
 import { local } from "../storage/local";
 
@@ -55,8 +56,10 @@ const task = () => {
     form.appendChild(submit);
 
     const template = document.getElementById("tmpl-modal");
-    let modalTmpl = template.content.cloneNode(true);
-    let workStation = modalTmpl.getElementById("working-station");
+    const modalTmpl = template.content.cloneNode(true);
+    const workStation = modalTmpl.getElementById("working-station");
+    const modalContainer = modalTmpl.getElementById("modalContainer");
+    modalContainer.addEventListener("click", cancelModal);
 
     workStation.appendChild(form);
 
@@ -226,5 +229,6 @@ const t = task();
 t.displayTodos(true);
 
 document.getElementById("add-task").addEventListener("click", t.taskForm);
+
 
 export default task;
