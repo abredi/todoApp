@@ -1,4 +1,4 @@
-import { cleanModal, TailwindButtonClass } from "../util/helpers";
+import { cleanModal, createListItem, TailwindButtonClass } from "../util/helpers";
 import { local } from "../storage/local";
 
 const task = () => {
@@ -70,7 +70,9 @@ const task = () => {
     const date = document.getElementById("date").value;
     const priority = document.getElementById("priority").value;
 
-    const taskData = { projectId, title, desc, date, priority };
+    const taskId = ls.saveTodoTask({ projectId, title, desc, date, priority });
+
+    const taskData = { projectId, taskId, title, desc, date, priority };
 
     const taskElem = displayTask(taskData);
     const projectElem = document.getElementById(projectId);
@@ -78,30 +80,69 @@ const task = () => {
       projectElem.appendChild(taskElem);
     }
 
-    ls.saveTodoTask({ projectId, title, desc, date, priority });
-
     document.getElementById("addTodo").reset();
     cleanModal();
   };
 
   const createTodoCard = (project) => {
+    const cardHeader = document.createElement("div");
+    cardHeader.classList.add(
+      "flex",
+      "items-center",
+      "justify-between",
+      "px-8",
+      "py-4",
+      "bg-purple-100",
+      "cursor-pointer"
+    );
+    const delElem = document.createElement("span");
+    delElem.setAttribute("data-pid", project.projectId);
+    delElem.classList.add("text-sm");
+    delElem.innerText = "Delete";
+    delElem.addEventListener("click", deleteProject);
     const projectNameElem = document.createElement("h2");
     projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
     projectNameElem.innerText = project.projectName;
-    const ul = document.createElement('ul');
-    ul.classList.add('flex-row', 'divide-y-2', 'divide-purple-200', 'divide-dashed');
+    cardHeader.appendChild(projectNameElem);
+    cardHeader.appendChild(delElem);
+    const ul = document.createElement("ul");
+    ul.classList.add(
+      "flex-row",
+      "divide-y-2",
+      "divide-purple-200",
+      "divide-dashed"
+    );
     ul.setAttribute("id", project.projectId);
     project.tasks.forEach((t) => {
       const task = displayTask(t);
       ul.appendChild(task);
     });
-
     const card = document.createElement("div");
     card.classList.add("card");
-    card.appendChild(projectNameElem);
+    card.appendChild(cardHeader);
     card.appendChild(ul);
     const todosMain = document.getElementById("taskStation");
     todosMain.appendChild(card);
+  };
+
+  const deleteTask = (event) => {
+    event.preventDefault();
+
+    const pid = event.target.getAttribute("data-pid");
+    const tid = event.target.getAttribute("data-tid");
+    if (pid && tid) {
+      ls.deleteTaskById(pid, tid);
+    }
+    return false;
+  };
+
+  const deleteProject = (event) => {
+    event.preventDefault();
+    const pid = event.target.getAttribute("data-pid");
+    if (pid) {
+      ls.deleteProjectById(pid);
+    }
+    return false;
   };
 
   const displayTask = (task) => {
@@ -109,6 +150,18 @@ const task = () => {
     const due = document.createElement("p");
     const priority = document.createElement("p");
     const description = document.createElement("p");
+    const delTaskElem = document.createElement("span");
+    delTaskElem.setAttribute("data-pid", task.projectId);
+    delTaskElem.setAttribute("data-tid", task.taskId);
+    delTaskElem.classList.add(
+      "absolute",
+      "bottom-10",
+      "right-5",
+      "cursor-pointer",
+      "text-sm"
+    );
+    delTaskElem.innerText = "Delete";
+    delTaskElem.addEventListener("click", deleteTask);
     taskName.innerText = task.title;
     due.innerText = task.date;
     priority.innerText = task.priority;
@@ -118,13 +171,14 @@ const task = () => {
     li.appendChild(due);
     li.appendChild(priority);
     li.appendChild(description);
-    li.classList.add('px-8', 'py-4', 'shadow-lg')
+    li.appendChild(delTaskElem);
+    li.classList.add("px-8", "py-4", "shadow-lg", "relative");
     return li;
   };
 
   const selectProjectToDisplay = (event) => {
     event.preventDefault();
-    const id = event.target.getAttribute('data');
+    const id = event.target.getAttribute("data");
     cleanModal("taskStation");
     displayTodos(false, id);
   };
@@ -134,29 +188,18 @@ const task = () => {
     if (!projects) {
       return;
     }
-      if (sidebar) {
-        const ul = document.getElementById("sidebarProjects");
-        projects.todos.forEach((p) => {
-          const li = document.createElement("li");
-          const a = document.createElement("a");
-          li.classList.add("py-1");
-          a.classList.add('text-xl', 'font-light', 'cursor-pointer');
-          a.setAttribute('data', p.projectId);
-          a.addEventListener("click", selectProjectToDisplay);
-          a.innerText = p.projectName;
-          li.appendChild(a);
-
-          ul.appendChild(li);
-        });
-    }
-    else if(projects) {
-      const selectedProject = projects.todos.find( p => { return p.projectId == projectId;});
+    if (sidebar) {
+      const ul = document.getElementById("sidebarProjects");
+      projects.todos.forEach((p) => {
+        const li = createListItem(p, ul);
+        ul.appendChild(li);
+      });
+    } else if (projectId) {
+      const selectedProject = ls.getProjectById(projectId);
       createTodoCard(selectedProject);
-    }
-     else {
+    } else {
       projects.todos.map((p) => createTodoCard(p));
     }
-   
   };
 
   return { createTask, taskForm, displayTodos };

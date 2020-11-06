@@ -6,16 +6,18 @@
   </head>
   <body class="grid col-gap-4 grid-cols-2-auto md:col-gap-8 lg:col-gap-16">
     <header class="w-full h-20 col-span-2 bg-purple-600">
-       <div class="flex items-center justify-start h-20 px-4 pl-8 bg-purple-600">
+      <div class="flex items-center justify-start h-20 px-4 pl-8 bg-purple-600">
         <h1 class="text-2xl font-light leading-tight text-purple-100">
           Todo App
         </h1>
       </div>
     </header>
     <aside class="w-64 h-full min-h-full bg-purple-100">
-     
-      <div class="flex justify-around p-2 bg-purple-500 border-t-2 border-purple-100">
-        <button id="add-project"
+      <div
+        class="flex justify-around p-2 bg-purple-500 border-t-2 border-purple-100"
+      >
+        <button
+          id="add-project"
           class="px-3 py-1 text-sm font-normal leading-7 text-purple-700 bg-purple-100 border rounded-md hover:border-purple-700 focus:border-purple-700"
           type="button"
           id="add-project"
@@ -41,18 +43,52 @@
             <li class="py-1">
               <a class="text-xl font-light cursor-pointer">Project X Demo</a>
             </li>
-
           </ul>
         </div>
       </section>
     </aside>
     <main id="main" class="">
-        <div id="modalStation"></div>
-        <div id="taskStation" class="max-w-full mt-5 overflow-hidden rounded">
-            
+      <div id="modalStation"></div>
+      <div id="taskStation" class="max-w-full m-5 overflow-hidden rounded">
+        <div class="">
+          <div class="flex items-center justify-between px-8 py-4 bg-purple-100 cursor-pointer">
+            <h2 class="text-2xl font-light text-gray-700">recca</h2>
+            <span class="text-sm">Delete Project</span>
+          </div>
+          <ul
+            class="flex-row divide-y-2 divide-purple-200 divide-dashed"
+            id="1"
+          >
+            <li class="relative px-8 py-4 shadow-md">
+              <h3>abd</h3>
+              <p>2020-11-11</p>
+              <p>1</p>
+              <p>desc</p>
+              <span class="absolute text-sm cursor-pointer bottom-10 right-5">Delete</span>
+            </li>
+            <li class="relative px-8 py-4 shadow-md">
+              <h3>dd</h3>
+              <p>2020-11-17</p>
+              <p>122</p>
+              <p>sdd</p>
+            </li>
+            <li class="relative px-8 py-4 shadow-md">
+              <h3>lol</h3>
+              <p>2020-11-16</p>
+              <p>2</p>
+              <p>piss</p>
+            </li>
+            <li class="relative px-8 py-4 shadow-md">
+              <h3>sdfdg</h3>
+              <p>2020-11-09</p>
+              <p>3</p>
+              <p>waesdfg</p>
+            </li>
+          </ul>
         </div>
+      </div>
     </main>
-    
+
     <template id="tmpl-modal">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div
@@ -72,7 +108,9 @@
             aria-labelledby="modal-headline"
           >
             <div class="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
-              <div id="working-station" class="sm:flex sm:items-start">working area</div>
+              <div id="working-station" class="sm:flex sm:items-start">
+                working area
+              </div>
             </div>
           </div>
         </div>
