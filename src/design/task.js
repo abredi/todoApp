@@ -13,7 +13,14 @@ const task = () => {
     const selectProject = document.createElement("select");
     selectProject.setAttribute("required", "required");
     selectProject.setAttribute("id", "projectId");
+    const optDisabled = document.createElement('option');
+    optDisabled.setAttribute('disabled','disabled');
+    optDisabled.selected = "true";
+    optDisabled.innerText = 'Select a project';
+    selectProject.appendChild(optDisabled);
+    selectProject.classList.add('border','border-purple-500')
     const projects = ls.getProjects();
+    
     if (projects) {
       projects.todos.map((p) => {
         const opt = document.createElement("option");
@@ -22,31 +29,38 @@ const task = () => {
         selectProject.appendChild(opt);
       });
     }
-
+    
     const title = document.createElement("input");
     title.setAttribute("type", "text");
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
+    title.setAttribute("placeholder", "Task title");
+    title.classList.add('border','border-purple-500','px-3');
     const desc = document.createElement("textarea");
     desc.setAttribute("cols", "30");
-    desc.setAttribute("row", "10");
+    desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
+    desc.classList.add('border','border-purple-500','px-3')
     desc.setAttribute("placeholder", "Task description");
+    desc.classList.add('border','border-solid','border-1','border-gray-600','my-10','p-3');
     const date = document.createElement("input");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
+    date.classList.add('border','border-purple-500');
     const priority = document.createElement("input");
     priority.setAttribute("type", "number");
     priority.setAttribute("id", "priority");
     priority.setAttribute("placeholder", "Task priority");
+    priority.classList.add('border','border-purple-500','px-3');
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
     submit.setAttribute("value", "Create Task");
-    submit.classList.add(...TailwindButtonClass);
+    submit.classList.add(...TailwindButtonClass,'my-10');
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
+    
     form.setAttribute("id", "addTodo");
     form.appendChild(selectProject);
     form.appendChild(title);
@@ -54,7 +68,6 @@ const task = () => {
     form.appendChild(date);
     form.appendChild(priority);
     form.appendChild(submit);
-
     const template = document.getElementById("tmpl-modal");
     const modalTmpl = template.content.cloneNode(true);
     const workStation = modalTmpl.getElementById("working-station");
