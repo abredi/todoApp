@@ -17,18 +17,19 @@ const task = () => {
       "projectName",
       "projectId"
     );
+    selectProject.setAttribute("id", "projectId");
 
     const title = document.createElement("input");
     title.setAttribute("type", "text");
     title.setAttribute("id", "title");
     title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border", "border-purple-500", "px-3");
+    title.classList.add("border", "border-indigo-500", "px-3");
     const desc = document.createElement("textarea");
     desc.setAttribute("cols", "30");
     desc.setAttribute("row", "30");
     desc.setAttribute("id", "desc");
-    desc.classList.add("border", "border-purple-500", "px-3");
+    desc.classList.add("border", "border-indigo-500", "px-3");
     desc.setAttribute("placeholder", "Task description");
     desc.classList.add(
       "border",
@@ -42,7 +43,7 @@ const task = () => {
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add("border", "border-purple-500");
+    date.classList.add("border", "border-indigo-500");
 
     const priority = createSelectElement(
       [
@@ -54,7 +55,8 @@ const task = () => {
       "priorityValue"
     );
     priority.setAttribute("placeholder", "Task priority");
-    priority.classList.add('border', 'border-purple-500', 'px-3');
+    priority.classList.add('border', 'border-indigo-500', 'px-3');
+    priority.setAttribute("id", "priority");
 
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
@@ -119,7 +121,7 @@ const task = () => {
       "justify-between",
       "px-8",
       "py-4",
-      "bg-purple-100",
+      "bg-indigo-100",
       "cursor-pointer"
     );
     const delElem = document.createElement("button");
@@ -136,7 +138,7 @@ const task = () => {
     ul.classList.add(
       "flex-row",
       "divide-y-2",
-      "divide-purple-200",
+      "divide-indigo-200",
       "divide-dashed"
     );
     ul.setAttribute("id", project.projectId);
@@ -217,12 +219,17 @@ const task = () => {
     taskDetail.appendChild(priority);
     taskDetail.appendChild(description);
     taskDetail.appendChild(delTaskElem);
-
     const li = document.createElement("li");
     li.appendChild(taskName);
     li.appendChild(taskDetail);
-    const bg
-    li.classList.add("px-8", "py-4", "shadow-lg", "relative");
+    const priorityNumber = parseInt(task.priority, 10);
+    const ListBgColor =
+      priorityNumber === 3
+        ? "bg-gray-100"
+        : priorityNumber === 2
+        ? "bg-indigo-200"
+        : "bg-indigo-300";
+    li.classList.add("px-8", "py-4", "shadow-lg", "relative", ListBgColor);
     return li;
   };
 
