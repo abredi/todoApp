@@ -123,6 +123,7 @@ const task = () => {
     const projectNameElem = document.createElement("h2");
     projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
     projectNameElem.innerText = project.projectName;
+  
     cardHeader.appendChild(projectNameElem);
     cardHeader.appendChild(delElem);
     const ul = document.createElement("ul");
