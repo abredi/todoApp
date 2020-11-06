@@ -24,9 +24,9 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin("style.css"),
-    new UglifyJsPlugin({
-      sourceMap: true
-    }),
+    // new UglifyJsPlugin({
+    //   sourceMap: true
+    // }),
 
     new CompressionPlugin({
       filename: '[path].br[query]',
@@ -40,9 +40,9 @@ module.exports = {
       deleteOriginalAssets: false,
     }),
 
-    new PurgecssPlugin({
-      paths: glob.sync(`${appPath.ENTRY_SRC}/**/*`, { nodir: true }),
-    }),
+    // new PurgecssPlugin({
+    //   paths: glob.sync(`${appPath.ENTRY_SRC}/**/*`, { nodir: true }),
+    // }),
 
     new HtmlPlugin({
       title: 'Todo App',
