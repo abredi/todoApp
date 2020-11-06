@@ -117,7 +117,7 @@ const task = () => {
     );
     const delElem = document.createElement("button");
     delElem.setAttribute("data-pid", project.projectId);
-    delElem.classList.add("text-sm", "text-red-600");
+    delElem.classList.add("text-sm", "text-red-600", "focus:outline-none");
     delElem.innerText = "Delete";
     delElem.addEventListener("click", deleteProject);
     const projectNameElem = document.createElement("h2");
@@ -191,7 +191,8 @@ const task = () => {
       "right-5",
       "cursor-pointer",
       "text-sm",
-      "text-red-600"
+      "text-red-600",
+      "focus:outline-none"
     );
     delTaskElem.innerText = "Delete";
     delTaskElem.addEventListener("click", deleteTask);
@@ -222,15 +223,12 @@ const task = () => {
       return;
     }
     if (sidebar) {
-      const ul = document.getElementById("sidebarProjects");
-      projects.todos.forEach((p) => {
-        const li = createListItem(p, ul);
-        ul.appendChild(li);
-      });
+      createSidebarList(projects);
     } else if (projectId) {
       const selectedProject = ls.getProjectById(projectId);
       createTodoCard(selectedProject);
     } else {
+      createSidebarList(projects);
       projects.todos.map((p) => createTodoCard(p));
     }
   };
@@ -238,10 +236,11 @@ const task = () => {
   return { createTask, taskForm, displayTodos };
 };
 
-const t = task();
-t.displayTodos(true);
-
-document.getElementById("add-task").addEventListener("click", t.taskForm);
-
-
 export default task;
+function createSidebarList(projects) {
+  const ul = document.getElementById("sidebarProjects");
+  projects.todos.forEach((p) => {
+    const li = createListItem(p, ul);
+    ul.appendChild(li);
+  });
+}

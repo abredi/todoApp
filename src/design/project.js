@@ -65,13 +65,8 @@ const todoUI = () => {
         modal.appendChild(projectFormWrapper);
     };
 
-    return {createAddProjectForm}
-   
+    return { createAddProjectForm }
+
 };
-
-
-const todoForm = todoUI();
-
-document.getElementById('add-project').addEventListener('click', todoForm.createAddProjectForm)
 
 export default todoUI
