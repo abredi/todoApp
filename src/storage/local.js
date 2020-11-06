@@ -31,6 +31,17 @@ export const local = () => {
     return false;
   };
 
+  const updateTask = (project, task) => {
+    const updatedTasks = project.tasks.map(t => {
+      if (t.taskId == task.taskId) {
+        return task;
+      }
+      return t;
+    });
+
+    return updatedTasks;
+  };
+
   const saveTodoTask = (todo) => {
     const todos = getProjects().todos;
     if (!todos) {
@@ -39,9 +50,14 @@ export const local = () => {
     let taskId = 0;
     const updatedTodos = todos.map((t) => {
       if (todo.projectId == t.projectId) {
-        taskId = t.tasks.length + 1;
-        const newTodo = {...todo, taskId}
-        t.tasks = [...t.tasks, newTodo];
+        const todoData = {};
+        if (todo.hasOwnProperty('taskId')) {
+          t.tasks = updateTask(t, todo);
+        } else {
+          taskId = t.tasks.length + 1;
+          todoData = { ...todo, taskId };
+          t.tasks = [...t.tasks, todoData];
+        }
       } 
       return t;
     });

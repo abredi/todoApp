@@ -63,11 +63,15 @@ const task = () => {
     priority.classList.add("border", "border-indigo-500", "px-3");
     priority.setAttribute("id", "priority");
 
+    // @Todo
+    //Create hidden input field for the taskId
+    
     const submit = document.createElement("input");
     submit.setAttribute("type", "button");
     submit.setAttribute("id", "create-task");
     const submitLabel = task.hasOwnProperty('projectId') ? 'Update Task' : 'Create Task';
     submit.setAttribute("value", submitLabel);
+    submit.setAttribute("task-id", task.taskId || null);
     submit.classList.add(...TailwindButtonClass, "my-10");
     submit.addEventListener("click", createTask);
     const form = document.createElement("form");
@@ -100,10 +104,17 @@ const task = () => {
     const desc = document.getElementById("desc").value;
     const date = document.getElementById("date").value;
     const priority = document.getElementById("priority").value;
+    let taskId = event.target.getAttribute("task-id");
 
-    const taskId = ls.saveTodoTask({ projectId, title, desc, date, priority });
+    let taskData = { projectId, title, desc, date, priority };
 
-    const taskData = { projectId, taskId, title, desc, date, priority };
+    if (taskId) {
+      taskData = { ...taskData, taskId };
+    }
+
+    taskId = ls.saveTodoTask(taskData);
+
+    taskData = { projectId, taskId, title, desc, date, priority };
 
     const taskElem = displayTask(taskData);
     const projectElem = document.getElementById(projectId);
