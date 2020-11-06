@@ -28,6 +28,9 @@ t.displayTodos();
 const todoForm = todoUI();
 
 document
+  .getElementById("all-projects")
+  .addEventListener("click", t.displayAllProjects);
+document
   .getElementById("add-task")
   .addEventListener("click", t.taskForm);
 document

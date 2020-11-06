@@ -39,27 +39,23 @@ export const local = () => {
       return t;
     });
 
-    return updatedTasks;
+    return { ...project, tasks: updatedTasks };
   };
 
-  const saveTodoTask = (todo) => {
+  const saveTodoTask = (givenTask) => {
     const todos = getProjects().todos;
     if (!todos) {
       return false;
     }
     let taskId = 0;
-    const updatedTodos = todos.map((t) => {
-      if (todo.projectId == t.projectId) {
-        const todoData = {};
-        if (todo.hasOwnProperty('taskId')) {
-          t.tasks = updateTask(t, todo);
-        } else {
-          taskId = t.tasks.length + 1;
-          todoData = { ...todo, taskId };
-          t.tasks = [...t.tasks, todoData];
-        }
-      } 
-      return t;
+    const updatedTodos = todos.map((project) => {
+      if (givenTask.projectId == project.projectId) {
+        const modifiedData = modifyTask(givenTask, project);
+        taskId = modifiedData.givenTodo.taskId;
+        // return { ...project, tasks: modifiedData.tasks };
+        return modifiedData.project;
+      }
+      return project;
     });
 
     store(updatedTodos);
@@ -111,6 +107,16 @@ export const local = () => {
      store(updatedTodos);
   };
 
+  const modifyTask = (givenTodo, project) => {
+    if (givenTodo.hasOwnProperty("taskId")) {
+      project = updateTask(project, givenTodo);
+    } else {
+      givenTodo = { ...givenTodo, taskId: project.tasks.length + 1 };
+      project = { ...project, tasks: [...project.tasks, givenTodo] };
+    }
+    return { givenTodo, project };
+  }
+
   return {
     deleteTaskById,
     deleteProjectById,
@@ -121,3 +127,5 @@ export const local = () => {
     getTaskById,
   };
 };
+
+
