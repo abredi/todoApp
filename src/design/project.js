@@ -43,10 +43,10 @@ const todoUI = () => {
     projectForm.classList.add("flex", "flex-col", "gap-y-6", "w-full");
     const projectName = document.createElement("input");
     projectName.classList.add(
-      "border-b",
+        "border-b",
+        'border-indigo-500',
       "p-4",
-      "hover:border-indigo-700",
-      "focus:border-indigo-700",
+      "hover:border-indigo-600",
       "w-full"
     );
     const addPBtn = document.createElement("button");
@@ -59,6 +59,16 @@ const todoUI = () => {
     projectName.setAttribute("placeholder", "Enter a project name");
     projectName.setAttribute("id", "projectName");
     projectName.classList.add("float-right");
+    const heading = document.createElement("h2");
+    heading.classList.add(
+      "text-2xl",
+      "text-2xl",
+      "text-gray-700",
+      "font-hairline",
+      "text-center"
+    );
+    heading.innerText = "Add Project";
+    projectForm.appendChild(heading);
     projectForm.appendChild(projectName);
     projectForm.appendChild(addPBtn);
 

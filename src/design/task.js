@@ -78,6 +78,9 @@ const task = () => {
     submit.setAttribute("task-id", task.taskId || "");
     submit.classList.add(...TailwindButtonClass);
     submit.addEventListener("click", createTask);
+    const heading = document.createElement("h2");
+    heading.classList.add("text-2xl", 'text-2xl', 'text-gray-700', 'font-hairline', 'text-center');
+    heading.innerText = 'Add task';
     const form = document.createElement("form");
     form.classList.add(
       "p-2",
@@ -85,9 +88,10 @@ const task = () => {
       "flex-col",
       "row-gap-8",
       "w-full",
-      "pt-6"
+      "pt-4"
     );
     form.setAttribute("id", "addTodo");
+    form.appendChild(heading);
     form.appendChild(selectProject);
     form.appendChild(title);
     form.appendChild(date);
