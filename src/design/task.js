@@ -20,7 +20,7 @@ const task = () => {
       "projectName",
       "projectId",
       task.projectId,
-      'Project'
+      "Project"
     );
     selectProject.setAttribute("id", "projectId");
 
@@ -28,9 +28,8 @@ const task = () => {
     title.setAttribute("type", "text");
     title.setAttribute("value", task.title || "");
     title.setAttribute("id", "title");
-    title.setAttribute("required", "required");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border-b", "border-indigo-500", "px-3");
+    title.classList.add("border-b", "border-indigo-500", "w-full");
     const desc = document.createElement("textarea");
     desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
@@ -44,14 +43,15 @@ const task = () => {
       "border-1",
       "border-gray-600",
       "p-3",
-      "col-span-2"
+      "col-span-2",
+      "w-full"
     );
     const date = document.createElement("input");
     date.setAttribute("value", task.date || "");
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add("border-b", "border-indigo-500");
+    date.classList.add("border-b", "border-indigo-500", "w-full");
 
     const priority = createSelectElement(
       [
@@ -62,7 +62,7 @@ const task = () => {
       "priorityName",
       "priorityValue",
       task.priority || "",
-      'Priority'
+      "Priority"
     );
     priority.setAttribute("placeholder", "Task priority");
     priority.setAttribute("id", "priority");
@@ -77,9 +77,35 @@ const task = () => {
     submit.setAttribute("task-id", task.taskId || "");
     submit.classList.add(...TailwindButtonClass);
     submit.addEventListener("click", createTask);
+    const heading = document.createElement("h2");
+    heading.classList.add(
+      "text-2xl",
+      "text-2xl",
+      "text-gray-700",
+      "font-hairline",
+      "text-center"
+    );
+    heading.innerText = "Add task";
+      const errorMsg = document.createElement("span");
+      errorMsg.setAttribute("id", "formErrorBoard");
+      errorMsg.classList.add(
+        "text-sm",
+        "text-red-500",
+        "font-hairline",
+        "text-center"
+      );
     const form = document.createElement("form");
-    form.classList.add("grid", "gap-6", "grid-cols-2");
+    form.classList.add(
+      "p-2",
+      "flex",
+      "flex-col",
+      "row-gap-8",
+      "w-full",
+      "pt-4"
+    );
     form.setAttribute("id", "addTodo");
+    form.appendChild(heading);
+    form.appendChild(errorMsg);
     form.appendChild(selectProject);
     form.appendChild(title);
     form.appendChild(date);
@@ -108,6 +134,15 @@ const task = () => {
     const desc = document.getElementById("desc").value;
     const date = document.getElementById("date").value;
     const priority = document.getElementById("priority").value;
+    const errorBoard = document.getElementById("formErrorBoard");
+
+    if (projectId == '' || title == '' || date == '' || priority == '') {
+      errorBoard.innerText = "Please fill the fields";
+      return;
+    }
+    errorBoard.innerText = "";
+    errorBoard.classList.add("hidden");
+
     let taskId = event.target.getAttribute("task-id");
 
     let taskData = { projectId, title, desc, date, priority };

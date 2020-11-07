@@ -1,16 +1,13 @@
-const zlib = require('zlib');
-const glob = require('glob');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
-const PurgecssPlugin = require('purgecss-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const appPath = require('./common.path');
 
 module.exports = {
-  mode: 'production',
+  mode: "production",
   module: {
     rules: [
       {
@@ -18,19 +15,21 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ["css-loader", "postcss-loader"],
-        })
-      }
-    ]
+        }),
+      },
+    ],
   },
   plugins: [
     new ExtractTextPlugin("style.css"),
-    new UglifyJsPlugin({
-      sourceMap: true
+    new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        ecma: 6,
+      },
     }),
-
     new CompressionPlugin({
-      filename: '[path].br[query]',
-      algorithm: 'brotliCompress',
+      filename: "[path].br[query]",
+      algorithm: "brotliCompress",
       test: /\.(js|css|html|svg)$/,
       compressionOptions: {
         level: 11,
@@ -40,13 +39,9 @@ module.exports = {
       deleteOriginalAssets: false,
     }),
 
-    new PurgecssPlugin({
-      paths: glob.sync(`${appPath.ENTRY_SRC}/**/*`, { nodir: true }),
-    }),
-
     new HtmlPlugin({
-      title: 'Todo App',
-      template: `${appPath.ENTRY_SRC}/template.html`
+      title: "Todo App",
+      template: `${appPath.ENTRY_SRC}/template.html`,
     }),
 
     new OptimizeCssAssetsPlugin({
@@ -58,4 +53,4 @@ module.exports = {
       },
     }),
   ],
-}
+};
