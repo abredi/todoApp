@@ -30,6 +30,7 @@ const createSelectElement = (ary, key, value, selectedValue = null, lable = null
   const selectElem = document.createElement("select");
   selectElem.setAttribute("required", "required");
   const optDisabled = document.createElement("option");
+  optDisabled.value = '';
   optDisabled.setAttribute("disabled", "disabled");
   if (!selectedValue) {
     optDisabled.selected = "true";
