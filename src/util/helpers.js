@@ -38,7 +38,13 @@ const createSelectElement = (ary, key, value, selectedValue = null, lable = null
 
   optDisabled.innerText = `Choose ${lable}`;
   selectElem.appendChild(optDisabled);
-  selectElem.classList.add("border-b", "border-indigo-500");
+  selectElem.classList.add(
+    "border-b",
+    "w-full",
+    "border-indigo-500",
+    "px-2",
+    "py-3"
+  );
 
   if (ary) {
     ary.map((item) => {

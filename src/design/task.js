@@ -29,7 +29,7 @@ const task = () => {
     title.setAttribute("value", task.title || "");
     title.setAttribute("id", "title");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border-b", "border-indigo-500", "w-full");
+    title.classList.add("border-b", "border-indigo-500", "w-full", 'px-2', 'py-3');
     const desc = document.createElement("textarea");
     desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
@@ -51,7 +51,13 @@ const task = () => {
     date.setAttribute("type", "date");
     date.setAttribute("id", "date");
     date.setAttribute("placeholder", "Due date");
-    date.classList.add("border-b", "border-indigo-500", "w-full");
+    date.classList.add(
+      "border-b",
+      "border-indigo-500",
+      "w-full",
+      "px-2",
+      "py-3"
+    );
 
     const priority = createSelectElement(
       [
