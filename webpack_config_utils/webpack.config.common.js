@@ -3,7 +3,7 @@ const appPath = require('./common.path');
 module.exports = {
   entry: appPath.ENTRY,
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.min.js',
     path: appPath.OUTPUT
   },
   module: {

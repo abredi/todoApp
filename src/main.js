@@ -1,4 +1,5 @@
-import "./css/tailwind.vendor.css";
+import "./css/vendor/tailwind.vendor.css";
+
 import "./css/style.css";
 
 import { local } from "./storage/local";

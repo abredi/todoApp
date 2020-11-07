@@ -20,7 +20,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new ExtractTextPlugin("style.css"),
+    new ExtractTextPlugin("style.min.css"),
     new TerserPlugin({
       parallel: true,
       terserOptions: {
