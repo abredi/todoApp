@@ -58,8 +58,8 @@ const createUL = (project) => {
   const ul = document.createElement("ul");
   ul.classList.add(
     "flex-row",
-    "divide-y-2",
-    "divide-indigo-200",
+    "divide-y",
+    "divide-indigo-400",
     "divide-dashed"
   );
   ul.setAttribute("id", project.projectId);
