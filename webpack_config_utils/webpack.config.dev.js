@@ -1,5 +1,4 @@
 const appPath = require('./common.path');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 
