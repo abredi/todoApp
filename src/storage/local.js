@@ -98,8 +98,7 @@ export const local = () => {
     const projects = getProjects();
     const updatedTodos = projects.todos.map((p) => {
       if (projectId == p.projectId) {
-         const filteredTasks = p.tasks.filter(t => t.taskId != taskId);
-         p.tasks = filteredTasks;
+        p.tasks = p.tasks.filter(t => t.taskId != taskId);
        }
        return p;
      });

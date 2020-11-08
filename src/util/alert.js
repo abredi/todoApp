@@ -1,4 +1,4 @@
-import { cleanModal, displayOnModal, TailwindButtonClass } from "./helpers";
+import { cleanModal, displayInModal, TailwindButtonClass } from "./helpers";
 const alertModal = () => {
   const present = (content) => {
     const acceptBtn = document.createElement("button");
@@ -32,7 +32,7 @@ const alertModal = () => {
     cardFooter.appendChild(acceptBtn);
     card.appendChild(cardFooter);
 
-    displayOnModal(card);
+    displayInModal(card);
   };
 
   const dismiss = () => {

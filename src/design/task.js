@@ -8,6 +8,7 @@ import {
   displayOnModal,
   createSelectElement,
   createCardHeader,
+  createCard,
 } from "../util/helpers";
 import { alertModal } from "../util/alert";
 import { local } from "../storage/local";
@@ -202,13 +203,7 @@ const task = () => {
       const task = displayTask(t);
       ul.appendChild(task);
     });
-    const card = document.createElement("div");
-    card.setAttribute("data-card-pid", project.projectId);
-    card.classList.add("card");
-    card.appendChild(cardHeader);
-    card.appendChild(ul);
-    const todosMain = document.getElementById("taskStation");
-    todosMain.appendChild(card);
+    createCard(project, cardHeader, ul);
   };
 
   const handleCancel = (event) => {
