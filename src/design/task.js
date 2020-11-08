@@ -5,9 +5,11 @@ import {
   createListItem,
   TailwindButtonClass,
   cancelModal,
+  displayOnModal,
   createSelectElement,
   createCardHeader,
 } from "../util/helpers";
+import { alertModal } from "../util/alert";
 import { local } from "../storage/local";
 
 const task = () => {
@@ -29,7 +31,13 @@ const task = () => {
     title.setAttribute("value", task.title || "");
     title.setAttribute("id", "title");
     title.setAttribute("placeholder", "Task title");
-    title.classList.add("border-b", "border-indigo-500", "w-full", 'px-2', 'py-3');
+    title.classList.add(
+      "border-b",
+      "border-indigo-500",
+      "w-full",
+      "px-2",
+      "py-3"
+    );
     const desc = document.createElement("textarea");
     desc.innerText = task.desc || "";
     desc.setAttribute("cols", "30");
@@ -92,14 +100,14 @@ const task = () => {
       "text-center"
     );
     heading.innerText = "Add task";
-      const errorMsg = document.createElement("span");
-      errorMsg.setAttribute("id", "formErrorBoard");
-      errorMsg.classList.add(
-        "text-sm",
-        "text-red-500",
-        "font-hairline",
-        "text-center"
-      );
+    const errorMsg = document.createElement("span");
+    errorMsg.setAttribute("id", "formErrorBoard");
+    errorMsg.classList.add(
+      "text-sm",
+      "text-red-500",
+      "font-hairline",
+      "text-center"
+    );
     const form = document.createElement("form");
     form.classList.add(
       "p-2",
@@ -119,17 +127,7 @@ const task = () => {
     form.appendChild(desc);
     form.appendChild(submit);
 
-    const template = document.getElementById("tmpl-modal");
-    const modalTmpl = template.content.cloneNode(true);
-    const workStation = modalTmpl.getElementById("working-station");
-    const modalContainer = modalTmpl.getElementById("modalContainer");
-    modalContainer.addEventListener("click", cancelModal);
-
-    workStation.appendChild(form);
-
-    const modal = cleanModal();
-
-    modal.appendChild(modalTmpl);
+    displayOnModal(form);
   };
 
   const createTask = (event) => {
@@ -142,7 +140,7 @@ const task = () => {
     const priority = document.getElementById("priority").value;
     const errorBoard = document.getElementById("formErrorBoard");
 
-    if (projectId == '' || title == '' || date == '' || priority == '') {
+    if (projectId == "" || title == "" || date == "" || priority == "") {
       errorBoard.innerText = "Please fill the fields";
       return;
     }
@@ -180,7 +178,7 @@ const task = () => {
     cleanModal();
   };
 
-  const toggleVisibility = (event) => {
+  const toggleVisibility   = (event) => {
     event.target.nextElementSibling.classList.toggle("hidden");
   };
 
@@ -200,11 +198,34 @@ const task = () => {
     todosMain.appendChild(card);
   };
 
-  const deleteTask = (event) => {
+  const handleCancel = (event) => {
     event.preventDefault();
+    cleanModal();
+  };
 
+  const handleConfirmDeleteTask = (data) => {
+    deleteTask(data);
+    cleanModal();
+  };
+
+   const handleConfirmDeleteProject = (data) => {
+     deleteTask(data);
+     cleanModal();
+   };
+
+  const confirmDeleteTask = (event) => {
+    event.preventDefault();
     const pid = event.target.getAttribute("data-pid");
     const tid = event.target.getAttribute("data-tid");
+    const alert = alertModal();
+
+    alert.present({ handleOk: handleConfirmDeleteTask, handleCancel, data: { pid, tid } });
+  };
+
+  const deleteTask = (data) => {
+    const pid = data.pid;
+    const tid = data.tid;
+
     if (pid && tid) {
       ls.deleteTaskById(pid, tid);
       const taskList = document.querySelector(
@@ -254,7 +275,7 @@ const task = () => {
       "focus:outline-none"
     );
     delTaskElem.innerText = "Delete";
-    delTaskElem.addEventListener("click", deleteTask);
+    delTaskElem.addEventListener("click", confirmDeleteTask);
 
     const editTaskElem = document.createElement("button");
     editTaskElem.setAttribute("data-pid", task.projectId);

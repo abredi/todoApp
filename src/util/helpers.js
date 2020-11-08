@@ -26,11 +26,17 @@ const cancelModal = (event) => {
   cleanModal();
 };
 
-const createSelectElement = (ary, key, value, selectedValue = null, lable = null) => {
+const createSelectElement = (
+  ary,
+  key,
+  value,
+  selectedValue = null,
+  lable = null
+) => {
   const selectElem = document.createElement("select");
   selectElem.setAttribute("required", "required");
   const optDisabled = document.createElement("option");
-  optDisabled.value = '';
+  optDisabled.value = "";
   optDisabled.setAttribute("disabled", "disabled");
   if (!selectedValue) {
     optDisabled.selected = "true";
@@ -74,12 +80,11 @@ const createUL = (project) => {
   return ul;
 };
 
-const deleteProject = (event) => {
-  event.preventDefault();
-
+const deleteProject = (data) => {
+  // event.preventDefault();
   const ls = local();
 
-  const pid = event.target.getAttribute("data-pid");
+  const pid = data.pid; // event.target.getAttribute("data-pid");
 
   if (pid) {
     ls.deleteProjectById(pid);
@@ -87,7 +92,9 @@ const deleteProject = (event) => {
     const projectList = document.querySelector(`a[data="${pid}"]`);
     if (projectCard) {
       projectCard.parentElement.removeChild(projectCard);
-      projectList.parentElement.parentElement.removeChild(projectList.parentElement);
+      projectList.parentElement.parentElement.removeChild(
+        projectList.parentElement
+      );
     }
   }
   return false;
@@ -117,6 +124,20 @@ const createCardHeader = (project) => {
   return cardHeader;
 };
 
+const displayOnModal = (innerContent) => {
+  const template = document.getElementById("tmpl-modal");
+  const modalTmpl = template.content.cloneNode(true);
+  const workStation = modalTmpl.getElementById("working-station");
+  const modalContainer = modalTmpl.getElementById("modalContainer");
+  modalContainer.addEventListener("click", cancelModal);
+
+  workStation.appendChild(innerContent);
+
+  const modal = cleanModal();
+
+  modal.appendChild(modalTmpl);
+};
+
 const TailwindButtonClass = `inline-flex justify-center w-full px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-red sm:text-sm sm:leading-5`.split(
   " "
 );
@@ -130,4 +151,5 @@ export {
   TailwindButtonClass,
   createCardHeader,
   createUL,
+  displayOnModal,
 };
