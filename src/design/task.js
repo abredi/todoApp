@@ -178,12 +178,25 @@ const task = () => {
     cleanModal();
   };
 
+  const confirmDeleteProject = (event) => {
+    event.preventDefault();
+
+    const pid = event.target.getAttribute("data-pid");
+    const alert = alertModal();
+
+    alert.present({
+      handleOk: handleConfirmDeleteProject,
+      handleCancel,
+      data: { pid },
+    });
+  };
+
   const toggleVisibility   = (event) => {
     event.target.nextElementSibling.classList.toggle("hidden");
   };
 
   const createTodoCard = (project) => {
-    const cardHeader = createCardHeader(project, deleteProject);
+    const cardHeader = createCardHeader(project, confirmDeleteProject);
     const ul = createUL(project);
     project.tasks.forEach((t) => {
       const task = displayTask(t);
@@ -208,10 +221,10 @@ const task = () => {
     cleanModal();
   };
 
-   const handleConfirmDeleteProject = (data) => {
-     deleteTask(data);
-     cleanModal();
-   };
+  const handleConfirmDeleteProject = (data) => {
+    deleteProject(data);
+    cleanModal();
+  };
 
   const confirmDeleteTask = (event) => {
     event.preventDefault();
@@ -219,7 +232,11 @@ const task = () => {
     const tid = event.target.getAttribute("data-tid");
     const alert = alertModal();
 
-    alert.present({ handleOk: handleConfirmDeleteTask, handleCancel, data: { pid, tid } });
+    alert.present({
+      handleOk: handleConfirmDeleteTask,
+      handleCancel,
+      data: { pid, tid },
+   });
   };
 
   const deleteTask = (data) => {

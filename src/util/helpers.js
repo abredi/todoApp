@@ -81,10 +81,9 @@ const createUL = (project) => {
 };
 
 const deleteProject = (data) => {
-  // event.preventDefault();
   const ls = local();
 
-  const pid = data.pid; // event.target.getAttribute("data-pid");
+  const pid = data.pid;
 
   if (pid) {
     ls.deleteProjectById(pid);
@@ -100,7 +99,7 @@ const deleteProject = (data) => {
   return false;
 };
 
-const createCardHeader = (project) => {
+const createCardHeader = (project, cb) => {
   const cardHeader = document.createElement("div");
   cardHeader.classList.add(
     "flex",
@@ -115,7 +114,7 @@ const createCardHeader = (project) => {
   delElem.setAttribute("data-pid", project.projectId);
   delElem.classList.add("text-sm", "text-red-600", "focus:outline-none");
   delElem.innerText = "Delete";
-  delElem.addEventListener("click", deleteProject);
+  delElem.addEventListener("click", cb);
   const projectNameElem = document.createElement("h2");
   projectNameElem.classList.add("text-2xl", "font-light", "text-gray-700");
   projectNameElem.innerText = project.projectName;
