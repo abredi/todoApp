@@ -63,8 +63,9 @@ const createSelectElement = (ary, key, value, selectedValue = null, lable = null
 const createUL = (project) => {
   const ul = document.createElement("ul");
   ul.classList.add(
+    "ml-4",
     "flex-row",
-    "divide-y",
+    "divide-y-2",
     "divide-indigo-400",
     "divide-dashed"
   );
