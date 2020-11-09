@@ -139,6 +139,9 @@ const task = () => {
       'Project',
     );
 
+    if (task.title) {
+      selectProject.setAttribute('disabled', 'disabled');
+    }
     selectProject.setAttribute('id', 'projectId');
 
     const title = document.createElement('input');
