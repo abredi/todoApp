@@ -19,5 +19,6 @@
   "ignorePatterns": [
     "dist/",
     "build/"
-  ]
+  ],
+  "import/extensions": "off"
 }
