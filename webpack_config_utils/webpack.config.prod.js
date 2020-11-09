@@ -1,26 +1,26 @@
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const appPath = require('./common.path');
 
 module.exports = {
-  mode: "production",
+  mode: 'production',
   module: {
     rules: [
       {
         test: /\.s?css/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", "postcss-loader"],
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader'],
         }),
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin("style.min.css"),
+    new ExtractTextPlugin('style.min.css'),
     new TerserPlugin({
       parallel: true,
       terserOptions: {
@@ -28,8 +28,8 @@ module.exports = {
       },
     }),
     new CompressionPlugin({
-      filename: "[path].br[query]",
-      algorithm: "brotliCompress",
+      filename: '[path].br[query]',
+      algorithm: 'brotliCompress',
       test: /\.(js|css|html|svg)$/,
       compressionOptions: {
         level: 11,
@@ -40,7 +40,7 @@ module.exports = {
     }),
 
     new HtmlPlugin({
-      title: "Todo App",
+      title: 'Todo App',
       template: `${appPath.ENTRY_SRC}/template.html`,
     }),
 

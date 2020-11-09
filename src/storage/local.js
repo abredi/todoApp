@@ -1,9 +1,13 @@
 export const local = () => {
+  const store = (todos) => {
+    localStorage.setItem('project', JSON.stringify({ todos }));
+  };
+
   const saveTodoProject = (todo) => {
-    let project = localStorage.getItem("project");
+    let project = localStorage.getItem('project');
     if (!project) {
-      project = localStorage.setItem("project", '{"todos": []}');
-      project = localStorage.getItem("project");
+      project = localStorage.setItem('project', '{"todos": []}');
+      project = localStorage.getItem('project');
     }
 
     project = JSON.parse(project);
@@ -23,7 +27,7 @@ export const local = () => {
   };
 
   const getProjects = () => {
-    const project = localStorage.getItem("project");
+    const project = localStorage.getItem('project');
     if (project) {
       return JSON.parse(project);
     }
@@ -32,8 +36,8 @@ export const local = () => {
   };
 
   const updateTask = (project, task) => {
-    const updatedTasks = project.tasks.map(t => {
-      if (t.taskId == task.taskId) {
+    const updatedTasks = project.tasks.map((t) => {
+      if (t.taskId === task.taskId) {
         return task;
       }
       return t;
@@ -42,14 +46,24 @@ export const local = () => {
     return { ...project, tasks: updatedTasks };
   };
 
+  const modifyTask = (givenTodo, project) => {
+    if ('taskId' in givenTodo) {
+      project = updateTask(project, givenTodo);
+    } else {
+      givenTodo = { ...givenTodo, taskId: project.tasks.length + 1 };
+      project = { ...project, tasks: [...project.tasks, givenTodo] };
+    }
+    return { givenTodo, project };
+  };
+
   const saveTodoTask = (givenTask) => {
-    const todos = getProjects().todos;
+    const { todos } = getProjects();
     if (!todos) {
       return false;
     }
     let taskId = 0;
     const updatedTodos = todos.map((project) => {
-      if (givenTask.projectId == project.projectId) {
+      if (givenTask.projectId === project.projectId) {
         const modifiedData = modifyTask(givenTask, project);
         taskId = modifiedData.givenTodo.taskId;
         // return { ...project, tasks: modifiedData.tasks };
@@ -63,58 +77,44 @@ export const local = () => {
     return taskId;
   };
 
-  const store = (todos) => {
-    localStorage.setItem("project", JSON.stringify({ todos }));
-  };
-
   const getProjectById = (id) => {
     const projects = getProjects();
-    const p = projects.todos.find((p) => p.projectId == id);
+    const p = projects.todos.find((p) => p.projectId === id);
     if (p) {
       return p;
     }
     return false;
   };
 
-    const getTaskById = (projectId, taskId) => {
-      const project = getProjectById(projectId);
-      if (!project) {
-        return false
-      }
-      const task = project.tasks.find((t) => t.taskId == taskId);
-      if (task) {
-        return task;
-      }
+  const getTaskById = (projectId, taskId) => {
+    const project = getProjectById(projectId);
+    if (!project) {
       return false;
-    };
+    }
+    const task = project.tasks.find((t) => t.taskId === taskId);
+    if (task) {
+      return task;
+    }
+    return false;
+  };
 
   const deleteProjectById = (id) => {
     const projects = getProjects();
-    const filteredProjects = projects.todos.filter((p) => p.projectId != id);
+    const filteredProjects = projects.todos.filter((p) => p.projectId !== id);
     store(filteredProjects);
   };
 
   const deleteTaskById = (projectId, taskId) => {
     const projects = getProjects();
     const updatedTodos = projects.todos.map((p) => {
-      if (projectId == p.projectId) {
-        p.tasks = p.tasks.filter(t => t.taskId != taskId);
-       }
-       return p;
-     });
+      if (projectId === p.projectId) {
+        p.tasks = p.tasks.filter((t) => t.taskId !== taskId);
+      }
+      return p;
+    });
 
-     store(updatedTodos);
+    store(updatedTodos);
   };
-
-  const modifyTask = (givenTodo, project) => {
-    if (givenTodo.hasOwnProperty("taskId")) {
-      project = updateTask(project, givenTodo);
-    } else {
-      givenTodo = { ...givenTodo, taskId: project.tasks.length + 1 };
-      project = { ...project, tasks: [...project.tasks, givenTodo] };
-    }
-    return { givenTodo, project };
-  }
 
   return {
     deleteTaskById,
@@ -127,4 +127,4 @@ export const local = () => {
   };
 };
 
-
+export default local;

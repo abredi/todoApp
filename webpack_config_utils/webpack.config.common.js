@@ -4,13 +4,13 @@ module.exports = {
   entry: appPath.ENTRY,
   output: {
     filename: 'bundle.min.js',
-    path: appPath.OUTPUT
+    path: appPath.OUTPUT,
   },
   module: {
     rules: [
       {
         test: /\.(png|jpe?g|ico)/,
-        use: 'url-loader'
+        use: 'url-loader',
       },
       {
         test: /\.html$/i,
@@ -19,7 +19,6 @@ module.exports = {
           minimize: true,
         },
       },
-    ]
+    ],
   },
-}
-
+};

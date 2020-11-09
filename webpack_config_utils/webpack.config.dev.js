@@ -1,6 +1,5 @@
-const appPath = require('./common.path');
 const HtmlPlugin = require('html-webpack-plugin');
-const glob = require('glob');
+const appPath = require('./common.path');
 
 module.exports = {
   mode: 'development',
@@ -18,16 +17,16 @@ module.exports = {
           'style-loader',
           'css-loader',
           'sass-loader',
-          'postcss-loader'
-        ]
-      }
-    ]
+          'postcss-loader',
+        ],
+      },
+    ],
   },
 
   plugins: [
     new HtmlPlugin({
       title: 'Todo Application',
-      template: `${appPath.ENTRY_SRC}/template.html`
+      template: `${appPath.ENTRY_SRC}/template.html`,
     }),
-  ]
-}
+  ],
+};
