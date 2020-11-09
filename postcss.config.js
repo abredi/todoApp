@@ -1,6 +1,8 @@
 /* eslint-disable import/order */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
+/* eslint import/no-unresolved: [2, { commonjs: true, amd: true }] */
+
 const envConf = require('./webpack_config_utils/eviroment');
 const tailwindcss = require('tailwindcss');
 let postCssPlugins = [

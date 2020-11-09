@@ -1,3 +1,4 @@
+/* eslint import/no-unresolved: [2, { commonjs: true, amd: true }] */
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');

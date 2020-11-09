@@ -1,3 +1,4 @@
+/* eslint import/no-unresolved: [2, { commonjs: true, amd: true }] */
 const HtmlPlugin = require('html-webpack-plugin');
 const appPath = require('./common.path');
 

@@ -1,3 +1,4 @@
+/* eslint import/no-unresolved: [2, { commonjs: true, amd: true }] */
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack_config_utils/webpack.config.common');
 const envConf = require('./webpack_config_utils/eviroment');
