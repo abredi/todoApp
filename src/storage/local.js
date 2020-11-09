@@ -37,7 +37,7 @@ export const local = () => {
 
   const updateTask = (project, task) => {
     const updatedTasks = project.tasks.map((t) => {
-      if (t.taskId === task.taskId) {
+      if (t.taskId === parseInt(task.taskId, 10)) {
         return task;
       }
       return t;
@@ -63,10 +63,9 @@ export const local = () => {
     }
     let taskId = 0;
     const updatedTodos = todos.map((project) => {
-      if (givenTask.projectId === project.projectId) {
+      if (parseInt(givenTask.projectId, 10) === project.projectId) {
         const modifiedData = modifyTask(givenTask, project);
         taskId = modifiedData.givenTodo.taskId;
-        // return { ...project, tasks: modifiedData.tasks };
         return modifiedData.project;
       }
       return project;
@@ -79,7 +78,7 @@ export const local = () => {
 
   const getProjectById = (id) => {
     const projects = getProjects();
-    const p = projects.todos.find((p) => p.projectId === id);
+    const p = projects.todos.find((p) => p.projectId === parseInt(id, 10));
     if (p) {
       return p;
     }
@@ -91,7 +90,7 @@ export const local = () => {
     if (!project) {
       return false;
     }
-    const task = project.tasks.find((t) => t.taskId === taskId);
+    const task = project.tasks.find((t) => t.taskId === parseInt(taskId, 10));
     if (task) {
       return task;
     }
@@ -100,15 +99,15 @@ export const local = () => {
 
   const deleteProjectById = (id) => {
     const projects = getProjects();
-    const filteredProjects = projects.todos.filter((p) => p.projectId !== id);
+    const filteredProjects = projects.todos.filter((p) => p.projectId !== parseInt(id, 10));
     store(filteredProjects);
   };
 
   const deleteTaskById = (projectId, taskId) => {
     const projects = getProjects();
     const updatedTodos = projects.todos.map((p) => {
-      if (projectId === p.projectId) {
-        p.tasks = p.tasks.filter((t) => t.taskId !== taskId);
+      if (parseInt(projectId, 10) === p.projectId) {
+        p.tasks = p.tasks.filter((t) => t.taskId !== parseInt(taskId, 10));
       }
       return p;
     });

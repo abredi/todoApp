@@ -138,6 +138,7 @@ const task = () => {
       task.projectId,
       'Project',
     );
+
     selectProject.setAttribute('id', 'projectId');
 
     const title = document.createElement('input');
