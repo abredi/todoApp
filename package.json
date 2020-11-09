@@ -3,7 +3,7 @@
     "dev": "yarn webpack-dev-server --color --env=dev",
     "build": "yarn webpack --env=prod"
   },
-  "name": "TodoApp",
+  "name": "todoapp",
   "version": "0.0.1",
   "description": "A Todo app ",
   "repository": "https://github.com/abredi/todoApp.git",
