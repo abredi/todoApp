@@ -21,6 +21,10 @@
 - Run `yarn dev` to start the local serve
 - Go to the browser and start `localhost:3001`
 
+## Live demo
+
+[Live preview](https://abredi.github.io/todoApp/index.html)
+
 ### Author
 
 👤 **Ngenzi Herve**
