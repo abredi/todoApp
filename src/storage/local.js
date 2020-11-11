@@ -37,7 +37,7 @@ export const local = () => {
 
   const updateTask = (project, task) => {
     const updatedTasks = project.tasks.map((t) => {
-      if (t.taskId === task.taskId) {
+      if (parseInt(t.taskId, 10) === parseInt(task.taskId, 10)) {
         return task;
       }
       return t;
@@ -63,7 +63,7 @@ export const local = () => {
     }
     let taskId = 0;
     const updatedTodos = todos.map((project) => {
-      if (parseInt(givenTask.projectId, 10) === project.projectId) {
+      if (parseInt(givenTask.projectId, 10) === parseInt(project.projectId, 10)) {
         const modifiedData = modifyTask(givenTask, project);
         taskId = modifiedData.givenTodo.taskId;
         return modifiedData.project;
@@ -78,7 +78,9 @@ export const local = () => {
 
   const getProjectById = (id) => {
     const projects = getProjects();
-    const p = projects.todos.find((p) => p.projectId === parseInt(id, 10));
+    const p = projects.todos.find(
+      (p) => parseInt(p.projectId, 10) === parseInt(id, 10),
+    );
     if (p) {
       return p;
     }
@@ -90,7 +92,7 @@ export const local = () => {
     if (!project) {
       return false;
     }
-    const task = project.tasks.find((t) => t.taskId === taskId);
+    const task = project.tasks.find((t) => parseInt(t.taskId, 10) === parseInt(taskId, 10));
     if (task) {
       return task;
     }
@@ -99,15 +101,19 @@ export const local = () => {
 
   const deleteProjectById = (id) => {
     const projects = getProjects();
-    const filteredProjects = projects.todos.filter((p) => p.projectId !== parseInt(id, 10));
+    const filteredProjects = projects.todos.filter(
+      (p) => parseInt(p.projectId, 10) !== parseInt(id, 10),
+    );
     store(filteredProjects);
   };
 
   const deleteTaskById = (projectId, taskId) => {
     const projects = getProjects();
     const updatedTodos = projects.todos.map((p) => {
-      if (parseInt(projectId, 10) === p.projectId) {
-        p.tasks = p.tasks.filter((t) => t.taskId !== parseInt(taskId, 10));
+      if (parseInt(projectId, 10) === parseInt(p.projectId, 10)) {
+        p.tasks = p.tasks.filter(
+          (t) => parseInt(t.taskId, 10) !== parseInt(taskId, 10),
+        );
       }
       return p;
     });
