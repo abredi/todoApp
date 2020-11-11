@@ -23,7 +23,7 @@
 
 ## Live demo
 
-[Live preview](https://abredi.github.io/todoApp/index.html)
+[Live preview](https://abredi.github.io/todoApp/dist/index.html)
 
 ### Author
 
