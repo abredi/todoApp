@@ -37,7 +37,7 @@ export const local = () => {
 
   const updateTask = (project, task) => {
     const updatedTasks = project.tasks.map((t) => {
-      if (t.taskId === parseInt(task.taskId, 10)) {
+      if (t.taskId === task.taskId) {
         return task;
       }
       return t;
@@ -90,7 +90,7 @@ export const local = () => {
     if (!project) {
       return false;
     }
-    const task = project.tasks.find((t) => t.taskId === parseInt(taskId, 10));
+    const task = project.tasks.find((t) => t.taskId === taskId);
     if (task) {
       return task;
     }
