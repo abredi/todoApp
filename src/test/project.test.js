@@ -4,12 +4,12 @@ describe('TodoUI', ()=>{
     test('should be true', () => {
         expect(todoUI).toBeTruthy()
     });
-    test('createAddProjectForm should to exist',()=>{
+    test('todoUI should return createAddProjectform ',()=>{
         let UI = todoUI();
         expect(UI.createAddProjectForm).toBeTruthy();
     });
 
-    test('',()=>{
+    test('addProject function ',()=>{
         let UI = todoUI();
         expect(UI.addProject).toBeFalsy();
     });
