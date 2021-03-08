@@ -1,16 +1,16 @@
 import todoUI from '../design/project';
 
-describe('TodoUI', ()=>{
-    test('should be true', () => {
-        expect(todoUI).toBeTruthy()
-    });
-    test('todoUI should return createAddProjectform ',()=>{
-        let UI = todoUI();
-        expect(UI.createAddProjectForm).toBeTruthy();
-    });
+describe('TodoUI function', () => {
+  test('should be true', () => {
+    expect(todoUI).toBeTruthy();
+  });
+  test('createAddProjectform be a factory function of todoUI', () => {
+    const UI = todoUI();
+    expect(UI.createAddProjectForm).toBeTruthy();
+  });
 
-    test('addProject function ',()=>{
-        let UI = todoUI();
-        expect(UI.addProject).toBeFalsy();
-    });
-})
+  test('addProject function ', () => {
+    const UI = todoUI();
+    expect(UI.addProject).toBeFalsy();
+  });
+});

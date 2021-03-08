@@ -237,7 +237,7 @@ const task = () => {
     form.setAttribute('id', 'addTodo');
     form.appendChild(heading);
     form.appendChild(errorMsg);
-    form.appendCh     ild(selectProject);
+    form.appendChild(selectProject);
     form.appendChild(title);
     form.appendChild(date);
     form.appendChild(priority);
