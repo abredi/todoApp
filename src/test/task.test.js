@@ -18,6 +18,4 @@ describe('displayTodos form task', () => {
     const p = getProjects();
     expect(!p).toBeFalsy();
   });
-
-
 });
