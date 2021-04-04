@@ -35,8 +35,6 @@ const alertModal = () => {
   };
 
   return { present, dismiss };
-
-  console.log(present)
 };
 
 export default alertModal;

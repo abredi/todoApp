@@ -37,5 +37,3 @@ document
 document
   .getElementById('add-project')
   .addEventListener('click', todoForm.createAddProjectForm);
-
-  
