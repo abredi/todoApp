@@ -22,12 +22,12 @@ const init = () => {
   }
 };
 
+
 init();
 
 const t = task();
 t.displayTodos();
 const todoForm = todoUI();
-
 document
   .getElementById('all-projects')
   .addEventListener('click', t.displayAllProjects);
